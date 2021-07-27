@@ -5,7 +5,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn href="/painel/regiao/form" color="white">
+      <v-btn to="/painel/regiao/form" color="white">
         <v-icon>mdi-plus</v-icon> Região
       </v-btn>
     </v-card-title>
@@ -21,6 +21,15 @@
                 </tr>
               </thead>
 
+              <tbody>
+                <tr v-for="regiao in regioes" :key="regiao.id">
+                  <td class="text-left">{{regiao.nome}}</td>
+                  <td class="text-left">
+                    <v-button><v-icon></v-icon></v-button>
+                  </td>
+                </tr>
+              </tbody>
+
             </template>
           </v-simple-table>
         </v-container>
@@ -34,6 +43,21 @@
 
 <script>
 export default {
-  layout: 'painel'
+  layout: 'painel',
+  data: () => ({
+    regioes: []
+  }),
+  created () {
+    this.getRegioes()
+  },
+  methods: {
+    getRegioes () {
+      this.$axios.get('/painel/regioes').then((r) => {
+        if (r.data) {
+          this.regioes = r.data
+        }
+      })
+    }
+  }
 }
 </script>
