@@ -47,7 +47,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "http://127.0.0.1:8000/api/"
+    baseURL: "https://webserver.rapidopedido.com.br/api/"
   },
 
   auth: {
