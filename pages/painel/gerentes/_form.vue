@@ -1,0 +1,174 @@
+<template>
+  <v-form @submit.prevent="salvar">
+    <v-card>
+      <v-card-title>
+        Cadastrar gerente
+
+        <v-spacer></v-spacer>
+
+        <v-btn to="/painel/gerentes" color="white">
+          <v-icon>mdi-format-list-bulleted</v-icon> Gerentes
+        </v-btn>
+      </v-card-title>
+
+      <v-card-text>
+        <v-row>
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field prepend-icon="mdi-tag" v-model="nome" label="Nome"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field prepend-icon="mdi-cash" v-model="comissao_faturamento" label="Comissão faturamento"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field prepend-icon="mdi-cash" v-model="comissao_lucro" label="Comissão lucro"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="2">
+            <v-combobox v-model="regiao" item-value="value" item-text="text" :items="regioes" label="Região"></v-combobox>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field prepend-icon="mdi-cash" v-model="limite_credito" label="Limite de crédito"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="12">
+            Usuário
+            <v-divider/>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field prepend-icon="mdi-account" v-model="username" label="Login"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field prepend-icon="mdi-key" type="password" v-model="password" label="Senha"></v-text-field>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="6">
+            <v-text-field prepend-icon="mdi-email" v-model="email" label="Email"></v-text-field>
+          </v-col>
+        </v-row>
+
+      </v-card-text>
+
+      <v-card-actions class="d-flex flex-row-reverse">
+        <v-btn type="submit" color="primary" >
+          <v-icon>mdi-content-save-outline</v-icon> Salvar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-form>
+</template>
+<script>
+export default {
+  layout: 'painel',
+  data: () => ({
+    regioes: [],
+
+    id: '',
+    perfil: 'gerente',
+    regiao: '',
+    nome: '',
+    comissao_faturamento: '',
+    limite_credito: '',
+    comissao_lucro: '',
+    username: '',
+    password: '',
+    email: ''
+  }),
+  created () {
+    this.getRegioes()
+    const idGerente = this.$route.params.form
+    if (idGerente !== 'form') {
+      this.id = idGerente
+      this.getGerente()
+    }
+  },
+  methods: {
+    async getRegioes () {
+      await this.$axios.get('/painel/regioes').then((r) => {
+        if (r.data) {
+          const regioes = r.data
+          this.regioes = regioes.map((reg) => {
+            return {
+              value: reg.id,
+              text: reg.nome
+            }
+          })
+        }
+      })
+    },
+    async getGerente () {
+      await this.$axios.get(`/painel/usuarios/${this.id}/edit`).then((r) => {
+        if (r.data.status) {
+          const usuario = r.data.usuario
+
+          this.nome = usuario.name
+
+          const regiao = this.regioes.find(re => re.value === usuario.regiao_id)
+          this.regiao = {
+            value: regiao.value,
+            text: regiao.text
+          }
+          this.comissao_faturamento = usuario.comissao_faturamento
+          this.limite_credito = usuario.limite_credito
+          this.comissao_lucro = usuario.comissao_lucro
+          this.username = usuario.username
+          this.email = usuario.email
+        }
+      })
+    },
+
+    salvar () {
+      if (this.id) {
+        this.atualizar()
+      } else {
+        this.criar()
+      }
+    },
+    criar () {
+      this.$axios.post('/painel/usuarios', {
+        nome: this.nome,
+        comissao_faturamento: this.comissao_faturamento,
+        perfil: this.perfil,
+        comissao_lucro: this.comissao_lucro,
+        regiao: this.regiao.value,
+        limite_credito: this.limite_credito,
+        username: this.username,
+        password: this.password,
+        email: this.email
+      }).then(
+        (r) => {
+          if (r.data.status) {
+            this.$router.push('/painel/gerentes')
+            alert('Salvo com sucesso')
+          }
+        }
+      )
+    },
+    atualizar () {
+      this.$axios.put(`/painel/usuarios/${this.id}`, {
+        nome: this.nome,
+        comissao_faturamento: this.comissao_faturamento,
+        perfil: this.perfil,
+        comissao_lucro: this.comissao_lucro,
+        regiao: this.regiao.value,
+        limite_credito: this.limite_credito,
+        username: this.username,
+        password: this.password,
+        email: this.email
+      }).then(
+        (r) => {
+          if (r.data.status) {
+            alert('Atualizado com sucesso')
+          } else {
+            alert('Não foi possível atualizar')
+          }
+        }
+      )
+    }
+  }
+}
+</script>

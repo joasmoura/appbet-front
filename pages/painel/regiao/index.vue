@@ -25,7 +25,7 @@
                 <tr v-for="regiao in regioes" :key="regiao.id">
                   <td class="text-left">{{regiao.nome}}</td>
                   <td class="text-left">
-                    <v-button><v-icon></v-icon></v-button>
+                    <v-btn :to="`/painel/regiao/${regiao.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                   </td>
                 </tr>
               </tbody>

@@ -4,7 +4,7 @@
 
       <v-spacer />
 
-      <v-btn href="/painel/supervisores/form" color="white">
+      <v-btn to="/painel/supervisores/form" color="white">
         <v-icon>mdi-plus</v-icon> Supervisor
       </v-btn>
     </v-card-title>
@@ -13,7 +13,7 @@
       <v-row>
 
         <v-col cols="12" sm="6" md="3">
-          <v-text-field label="Nome"></v-text-field>
+          <v-text-field prepend-icon="mdi-tag" label="Nome"></v-text-field>
         </v-col>
 
          <v-col cols="12" sm="6" md="2">
@@ -40,6 +40,16 @@
                 </tr>
               </thead>
 
+              <tbody>
+                <tr v-for="supervisor in supervisores" :key="supervisor.id">
+                  <td>{{supervisor.name}}</td>
+                  <td>{{supervisor.regiao_id}}</td>
+                  <td>
+                    <v-btn :to="`/painel/supervisores/${supervisor.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+                  </td>
+                </tr>
+              </tbody>
+
             </template>
           </v-simple-table>
     </v-card-text>
@@ -52,13 +62,21 @@ export default {
   data: () => ({
     lista_status: [],
     regioes: [],
+    supervisores: [],
 
     status: '',
     regiao: ''
   }),
+  created () {
+    this.getSupervisores()
+  },
   methods: {
-    pesquisar () {
-
+    getSupervisores () {
+      this.$axios.get('/painel/usuarios/supervisores').then((r) => {
+        if (r.data) {
+          this.supervisores = r.data
+        }
+      })
     }
   }
 }

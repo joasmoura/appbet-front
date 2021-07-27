@@ -31,17 +31,54 @@
 export default {
   layout: 'painel',
   data: () => ({
+    id: '',
     nome: ''
   }),
+  created () {
+    const idRegiao = this.$route.params.form
+    if (idRegiao !== 'form') {
+      this.id = idRegiao
+      this.getRegiao()
+    }
+  },
   methods: {
+    getRegiao () {
+      this.$axios.get(`/painel/regioes/${this.id}/edit`).then((r) => {
+        if (r.data.status) {
+          this.nome = r.data.regiao.nome
+        } else {
+          this.$router.push('/painel/regiao')
+        }
+      })
+    },
     salvar () {
+      if (this.id) {
+        this.atualizar()
+      } else {
+        this.criar()
+      }
+    },
+    criar () {
       this.$axios.post('/painel/regioes', {
         nome: this.nome
       }).then(
         (r) => {
-          if (r.status) {
+          if (r.data.status) {
             this.$router.push('/painel/regiao')
             alert('Salvo com sucesso')
+          }
+        }
+      )
+    },
+    atualizar () {
+      this.$axios.put(`/painel/regioes/${this.id}`, {
+        nome: this.nome
+      }).then(
+        (r) => {
+          if (r.data.status) {
+            alert('Atualizado com sucesso')
+          } else {
+            alert('Não foi possível atualizar')
           }
         }
       )

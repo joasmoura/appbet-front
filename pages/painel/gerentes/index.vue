@@ -4,7 +4,7 @@
 
       <v-spacer />
 
-      <v-btn href="/painel/gerentes/form" color="white">
+      <v-btn to="/painel/gerentes/form" color="white">
         <v-icon>mdi-plus</v-icon> Gerente
       </v-btn>
     </v-card-title>
@@ -41,6 +41,15 @@
                 </tr>
               </thead>
 
+              <tbody>
+                <tr v-for="gerente in gerentes" :key="gerente.id">
+                  <td>{{gerente.name}}</td>
+                  <td>{{gerente.regiao_id}}</td>
+                  <td>{{gerente.limite_credito}}</td>
+                  <td><v-btn :to="`/painel/gerentes/${gerente.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn></td>
+                </tr>
+              </tbody>
+
             </template>
           </v-simple-table>
     </v-card-text>
@@ -53,13 +62,21 @@ export default {
   data: () => ({
     lista_status: [],
     regioes: [],
+    gerentes: [],
 
     status: '',
     regiao: ''
   }),
+  created () {
+    this.getGerentes()
+  },
   methods: {
-    pesquisar () {
-
+    getGerentes () {
+      this.$axios.get('/painel/usuarios/gerentes').then((r) => {
+        if (r.data) {
+          this.gerentes = r.data
+        }
+      })
     }
   }
 }
