@@ -26,10 +26,17 @@
                 <tr v-for="extracao in extracoes" :key="extracao.id">
                   <td>{{extracao.data}}</td>
                   <td>{{extracao.status}}</td>
-                  <td>
-                    <v-btn :to="`/painel/extracao/${extracao.id}`">
+                  <td class="d-flex">
+                    <v-btn class="align-self-center" small :to="`/painel/extracao/${extracao.id}`">
                       <v-icon>mdi-square-edit-outline</v-icon>
                     </v-btn>
+
+                    <v-select
+                      :items="montarSelect(extracao.horas)"
+                      label="Informar resultado"
+                      dense
+                      solo
+                    ></v-select>
                   </td>
                 </tr>
               </tbody>
@@ -61,6 +68,18 @@ export default {
           this.extracoes = r.data
         }
       })
+    },
+    montarSelect (hora) {
+      let novaHora = []
+      if (hora) {
+        novaHora = hora.map((h) => {
+          return {
+            value: h.id,
+            text: h.nome
+          }
+        })
+      }
+      return novaHora
     }
 
   }
