@@ -30,7 +30,7 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="hora" prepend-icon="mdi-clock-outline" label="Hora"></v-text-field>
+            <v-text-field v-model="hora" type="time" prepend-icon="mdi-clock-outline" label="Hora"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
