@@ -58,6 +58,7 @@
   </v-form>
 </template>
 <script>
+import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
@@ -158,7 +159,10 @@ export default {
         (r) => {
           if (r.data.status) {
             this.$router.push('/painel/supervisores')
-            alert('Salvo com sucesso')
+            Swall.fire({
+              icon: 'success',
+              title: 'Sepervisor cadastrado com sucesso'
+            })
           }
         }
       )
@@ -176,9 +180,15 @@ export default {
       }).then(
         (r) => {
           if (r.data.status) {
-            alert('Atualizado com sucesso')
+            Swall.fire({
+              icon: 'success',
+              title: 'Dados do supervisor atualizados com sucesso'
+            })
           } else {
-            alert('Não foi possível atualizar')
+            Swall.fire({
+              icon: 'error',
+              title: 'Não foi possível atualizar'
+            })
           }
         }
       )

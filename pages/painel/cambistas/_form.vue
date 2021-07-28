@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
@@ -213,7 +214,10 @@ export default {
         (r) => {
           if (r.data.status) {
             this.$router.push('/painel/cambistas')
-            alert('Salvo com sucesso')
+            Swall.fire({
+              icon: 'success',
+              title: 'Cambista cadastrado com sucesso'
+            })
           }
         }
       )
@@ -233,9 +237,15 @@ export default {
       }).then(
         (r) => {
           if (r.data.status) {
-            alert('Atualizado com sucesso')
+            Swall.fire({
+              icon: 'success',
+              title: 'Dados do cambista cadastrado com sucesso'
+            })
           } else {
-            alert('Não foi possível atualizar')
+            Swall.fire({
+              icon: 'warning',
+              title: 'Não foi possível atualizar'
+            })
           }
         }
       )

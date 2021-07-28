@@ -5,7 +5,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn href="/painel/extracao/form" color="white">
+      <v-btn to="/painel/extracao/form" color="white">
         <v-icon>mdi-plus</v-icon> Extração
       </v-btn>
     </v-card-title>
@@ -22,6 +22,18 @@
                 </tr>
               </thead>
 
+              <tbody>
+                <tr v-for="extracao in extracoes" :key="extracao.id">
+                  <td>{{extracao.data}}</td>
+                  <td>{{extracao.status}}</td>
+                  <td>
+                    <v-btn :to="`/painel/extracao/${extracao.id}`">
+                      <v-icon>mdi-square-edit-outline</v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+              </tbody>
+
             </template>
           </v-simple-table>
         </v-container>
@@ -37,8 +49,19 @@
 export default {
   layout: 'painel',
   data: () => ({
+    extracoes: []
   }),
+  created () {
+    this.getExtracoes()
+  },
   methods: {
+    getExtracoes () {
+      this.$axios.get('/painel/extracoes').then((r) => {
+        if (r.data) {
+          this.extracoes = r.data
+        }
+      })
+    }
 
   }
 }

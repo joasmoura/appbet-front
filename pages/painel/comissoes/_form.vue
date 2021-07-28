@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
@@ -108,7 +109,10 @@ export default {
         (r) => {
           if (r.data.status) {
             this.$router.push('/painel/comissoes')
-            alert('Salvo com sucesso')
+            Swall.fire({
+              icon: 'success',
+              title: 'Comissão cadastrada com sucesso'
+            })
           }
         }
       )
@@ -121,9 +125,15 @@ export default {
       }).then(
         (r) => {
           if (r.data.status) {
-            alert('Atualizado com sucesso')
+            Swall.fire({
+              icon: 'success',
+              title: 'Comissão atualizada com sucesso'
+            })
           } else {
-            alert('Não foi possível atualizar')
+            Swall.fire({
+              icon: 'warning',
+              title: 'Não foi possível atualizar'
+            })
           }
         }
       )
