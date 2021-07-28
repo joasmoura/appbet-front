@@ -33,6 +33,7 @@
                       hide-details
                       @change="setaStatus(extracao.id)"
                     ></v-checkbox> -->
+                    {{extracao.status}}
                     <input type="checkbox" v-model="extracao.status" @change="setaStatus(extracao.id)" />
                   </td>
                   <td class="d-flex">
