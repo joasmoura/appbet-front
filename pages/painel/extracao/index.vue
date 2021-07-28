@@ -71,12 +71,12 @@ export default {
     this.getExtracoes()
   },
   methods: {
-    setaStatus (id) {
+    async setaStatus (id) {
       const extracao = this.extracoes.find(ex => ex.id === id)
       if (extracao) {
         extracao.status = (extracao.status ? 0 : 1)
       }
-      this.$axios.get(`/painel/extracoes/setar_status/${id}`)
+      await this.$axios.get(`/painel/extracoes/setar_status/${id}`)
     },
     informarResultado (id) {
       this.$router.push(`/painel/extracao/resultado/${id}`)
