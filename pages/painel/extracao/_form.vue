@@ -126,10 +126,7 @@ export default {
               return {
                 nome: h.nome,
                 hora: h.hora,
-                regiao: {
-                  value: regiao.value,
-                  text: regiao.text
-                }
+                regiao
               }
             })
           }
