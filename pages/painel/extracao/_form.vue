@@ -16,13 +16,17 @@
           <v-col cols="12" sm="6" md="4">
             <!-- <v-text-field v-model="data" prepend-icon="mdi-calendar-month" placeholder="dd/MM/YYYY" label="Data"></v-text-field> -->
             <v-input>
-              <date-picker v-model="data" format="DD/MM/YYYY" placeholder="dd/MM/YYYY"/>
+              <date-picker v-model="data" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="dd/MM/YYYY" />
             </v-input>
           </v-col>
 
           <v-col cols="12" sm="12" md="12">
             Horários
             <v-divider/>
+          </v-col>
+
+          <v-col cols="12" sm="6" md="4">
+            <v-text-field v-model="nome" label="Nome"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
@@ -34,11 +38,7 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="nome" label="Nome"></v-text-field>
-          </v-col>
-
-          <v-col cols="12" sm="6" md="4">
-            <v-btn v-on:click="adicionar_horario()" color="primary">
+            <v-btn @click="adicionar_horario()" color="primary">
               <v-icon>mdi-plus</v-icon> Adicionar
             </v-btn>
           </v-col>
@@ -98,7 +98,13 @@ export default {
     regiao: '',
     nome: '',
     hora: '',
-    data: null
+    data: new Date(),
+    lang: {
+      formatLocale: {
+        firstDayOfWeek: 1
+      },
+      monthBeforeYear: false
+    }
   }),
   created () {
     this.getRegioes()
@@ -115,8 +121,7 @@ export default {
         if (r.data.status) {
           const extracao = r.data.extracao
 
-          this.data = new Date(extracao.data)
-          this.data.setDate(this.data.getDate() + 1)
+          this.data = extracao.data
 
           if (extracao.horas) {
             const horas = extracao.horas
@@ -124,6 +129,7 @@ export default {
               const regiao = this.regioes.find(re => re.value === h.regiao_id)
 
               return {
+                id: h.id,
                 nome: h.nome,
                 hora: h.hora,
                 regiao
@@ -155,6 +161,14 @@ export default {
       })
     },
     remover (index) {
+      const hora = this.horarios[index]
+      if (hora.id) {
+        this.$axios.get(`/painel/extracoes/removerHora/${hora.id}`).then(
+          (r) => {
+            console.log('excluído')
+          }
+        )
+      }
       this.horarios.splice(index, 1)
     },
 
@@ -182,8 +196,9 @@ export default {
       )
     },
     atualizar () {
+      const data = this.data
       this.$axios.put(`/painel/extracoes/${this.id}`, {
-        data: this.data,
+        data,
         horarios: this.horarios
       }).then(
         (r) => {
