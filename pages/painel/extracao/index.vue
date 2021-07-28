@@ -26,13 +26,14 @@
                 <tr v-for="extracao in extracoes" :key="extracao.id">
                   <td>{{extracao.data}}</td>
                   <td>
-                    <v-checkbox
+                    <!-- <v-checkbox
                       v-model="extracao.status"
                       color="success"
                       :value="extracao.status"
                       hide-details
                       @change="setaStatus(extracao.id)"
-                    ></v-checkbox>
+                    ></v-checkbox> -->
+                    <input type="checkbox" v-model="extracao.status" @change="setaStatus(extracao.id)" />
                   </td>
                   <td class="d-flex">
                     <v-btn class="align-self-center" small :to="`/painel/extracao/${extracao.id}`">
