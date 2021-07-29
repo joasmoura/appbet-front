@@ -30,7 +30,7 @@
                       v-model="extracao.status"
                       hide-details
                       @change="(() => {
-                        extracao.status = (extracao.status === 1 ? 0 : 1)
+                        extracao.status = (extracao.status === 1 ? null : 1)
                         setaStatus(extracao.id)
                       })"
                     ></v-checkbox>
