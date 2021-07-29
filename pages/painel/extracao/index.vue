@@ -29,6 +29,7 @@
                     <v-checkbox
                       v-model="extracao.status"
                       color="success"
+                      :value="extracao.status"
                       hide-details
                       @change="setaStatus(extracao.id)"
                     ></v-checkbox>
@@ -45,7 +46,10 @@
                       label="Informar resultado"
                       dense
                       solo
-                      @change="informarResultado"
+                      @change="(id) => {
+                        extracao.status = (extracao.status === 1 ? 0 : 1)
+                        informarResultado(id)
+                      }"
                     ></v-select>
                   </td>
                 </tr>
@@ -73,10 +77,10 @@ export default {
   },
   methods: {
     async setaStatus (id) {
-      const extracao = this.extracoes.find(ex => ex.id === id)
-      if (extracao) {
-        extracao.status = !extracao.status
-      }
+      // const extracao = this.extracoes.find(ex => ex.id === id)
+      // if (extracao) {
+      //   extracao.status = (extracao.status === 1 ? 0 : 1)
+      // }
 
       // this.extracoes = extracao.map((ex) => {
       //   return ex
