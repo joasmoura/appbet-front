@@ -4,7 +4,7 @@
       <v-card-title>
         Cadastrar cambista
 
-        <v-spacer></v-spacer>
+        <v-spacer />
 
         <v-btn to="/painel/cambistas" color="white">
           <v-icon>mdi-format-list-bulleted</v-icon> Cambistas
@@ -14,39 +14,39 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="nome" prepend-icon="mdi-tag" label="Nome"></v-text-field>
+            <v-text-field v-model="nome" prepend-icon="mdi-tag" label="Nome" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="gerente" :items="gerentes" label="Gerente"></v-combobox>
+            <v-combobox v-model="gerente" :items="gerentes" label="Gerente" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="supervisor" :items="supervisores" label="Supervisor"></v-combobox>
+            <v-combobox v-model="supervisor" :items="supervisores" label="Supervisor" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="comissao" :items="comissoes" label="Tabela de comissão"></v-combobox>
+            <v-combobox v-model="comissao" :items="comissoes" label="Tabela de comissão" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="telefone" prepend-icon="mdi-phone" label="Telefone"></v-text-field>
+            <v-text-field v-model="telefone" prepend-icon="mdi-phone" label="Telefone" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="username" prepend-icon="mdi-account" label="Login"></v-text-field>
+            <v-text-field v-model="username" prepend-icon="mdi-account" label="Login" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="password" type="password" prepend-icon="mdi-key" label="Senha"></v-text-field>
+            <v-text-field v-model="password" type="password" prepend-icon="mdi-key" label="Senha" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="limite_credito" prepend-icon="mdi-cash" label="Limite de crédito"></v-text-field>
+            <v-text-field v-model="limite_credito" prepend-icon="mdi-cash" label="Limite de crédito" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="percentual_premio" label="Percentual do prêmio"></v-text-field>
+            <v-text-field v-model="percentual_premio" label="Percentual do prêmio" />
           </v-col>
 
           <v-col cols="12" sm="12" md="12">
@@ -56,21 +56,20 @@
               <v-checkbox
                 v-for="regiao in regioes"
                 :key="regiao.id"
+                v-model="regiaoSelecionada"
                 :label="regiao.nome"
                 color="success"
                 class="ml-5"
-                v-model="regiaoSelecionada"
                 :value="regiao.id"
                 hide-details
               />
             </div>
           </v-col>
-
         </v-row>
       </v-card-text>
 
       <v-card-actions class="d-flex flex-row-reverse">
-        <v-btn type="submit" color="primary" >
+        <v-btn type="submit" color="primary">
           <v-icon>mdi-content-save-outline</v-icon> Salvar
         </v-btn>
       </v-card-actions>
@@ -121,7 +120,8 @@ export default {
           this.nome = usuario.name
           if (usuario.gerente_id) {
             const gerente = this.gerentes.find(re => re.value === usuario.gerente_id)
-            if(gerente){
+            console.log(gerente)
+            if (gerente) {
               this.gerente = {
                 value: gerente.value,
                 text: gerente.text
@@ -130,7 +130,7 @@ export default {
           }
           if (usuario.supervisor_id) {
             const supervisor = this.supervisores.find(re => re.value === usuario.supervisor_id)
-            if(supervisor){
+            if (supervisor) {
               this.supervisor = {
                 value: supervisor.value,
                 text: supervisor.text
@@ -140,7 +140,7 @@ export default {
 
           if (usuario.comissao_id) {
             const comissao = this.comissoes.find(re => re.value === usuario.comissao_id)
-            if(comissao){
+            if (comissao) {
               this.comissao = {
                 value: comissao.value,
                 text: comissao.text
