@@ -26,15 +26,15 @@
                 <tr v-for="extracao in extracoes" :key="extracao.id">
                   <td>{{extracao.data}}</td>
                   <td>
-                    <!-- <v-checkbox
+                    <v-checkbox
                       v-model="extracao.status"
                       color="success"
-                      :value="extracao.status"
+                      :value="(extracao.status ? 1 : null)"
                       hide-details
                       @change="setaStatus(extracao.id)"
-                    ></v-checkbox> -->
+                    ></v-checkbox>
                     {{extracao.status}}
-                    <input type="checkbox" v-model="extracao.status" @change="setaStatus(extracao.id)" />
+                    <!-- <input type="checkbox" v-model="extracao.status" @change="setaStatus(extracao.id)" /> -->
                   </td>
                   <td class="d-flex">
                     <v-btn class="align-self-center" small :to="`/painel/extracao/${extracao.id}`">
@@ -76,8 +76,12 @@ export default {
     async setaStatus (id) {
       const extracao = this.extracoes.find(ex => ex.id === id)
       if (extracao) {
-        extracao.status = (extracao.status ? 0 : 1)
+        extracao.status = !extracao.status
       }
+
+      // this.extracoes = extracao.map((ex) => {
+      //   return ex
+      // })
       await this.$axios.get(`/painel/extracoes/setar_status/${id}`)
     },
     informarResultado (id) {
