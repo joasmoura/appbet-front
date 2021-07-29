@@ -100,17 +100,19 @@ export default {
     percentual_premio: ''
   }),
   mounted () {
-    const idGerente = this.$route.params.form
-    if (idGerente !== 'form') {
-      this.id = idGerente
-      this.getCambista()
-    }
+
   },
   created () {
     this.getRegioes()
     this.getGerentes()
     this.getSupervisores()
     this.getComissoes()
+
+    const idGerente = this.$route.params.form
+    if (idGerente !== 'form') {
+      this.id = idGerente
+      this.getCambista()
+    }
   },
   methods: {
     async getCambista () {
@@ -121,8 +123,6 @@ export default {
           this.nome = usuario.name
           if (usuario.gerente_id) {
             const gerente = this.gerentes.find(re => re.value === parseInt(usuario.gerente_id))
-            console.log(this.gerentes)
-            console.log(gerente)
             if (gerente) {
               this.gerente = {
                 value: gerente.value,
@@ -130,8 +130,9 @@ export default {
               }
             }
           }
+
           if (usuario.supervisor_id) {
-            const supervisor = this.supervisores.find(re => re.value === usuario.supervisor_id)
+            const supervisor = this.supervisores.find(re => re.value === parseInt(usuario.supervisor_id))
             if (supervisor) {
               this.supervisor = {
                 value: supervisor.value,
@@ -141,7 +142,7 @@ export default {
           }
 
           if (usuario.comissao_id) {
-            const comissao = this.comissoes.find(re => re.value === usuario.comissao_id)
+            const comissao = this.comissoes.find(re => re.value === parseInt(usuario.comissao_id))
             if (comissao) {
               this.comissao = {
                 value: comissao.value,

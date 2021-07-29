@@ -93,13 +93,13 @@ export default {
 
           this.nome = usuario.name
 
-          const regiao = this.regioes.find(re => re.value === usuario.regiao_id)
+          const regiao = this.regioes.find(re => re.value === parseInt(usuario.regiao_id))
           this.regiao = {
             value: regiao.value,
             text: regiao.text
           }
 
-          const gerente = this.gerentes.find(re => re.value === usuario.gerente_id)
+          const gerente = this.gerentes.find(re => re.value === parseInt(usuario.gerente_id))
           this.gerente = {
             value: gerente.value,
             text: gerente.text

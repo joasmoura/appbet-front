@@ -126,7 +126,7 @@ export default {
           if (extracao.horas) {
             const horas = extracao.horas
             this.horarios = horas.map((h) => {
-              const regiao = this.regioes.find(re => re.value === h.regiao_id)
+              const regiao = this.regioes.find(re => re.value === parseInt(h.regiao_id))
 
               return {
                 id: h.id,

@@ -70,7 +70,7 @@ export default {
 
           this.nome = comissao.nome
 
-          const regiao = this.regioes.find(re => re.value === comissao.regiao_id)
+          const regiao = this.regioes.find(re => re.value === parseInt(comissao.regiao_id))
           this.regiao = {
             value: regiao.value,
             text: regiao.text
