@@ -38,7 +38,7 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="password" prepend-icon="mdi-key" label="Senha"></v-text-field>
+            <v-text-field v-model="password" type="password" prepend-icon="mdi-key" label="Senha"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
@@ -121,24 +121,30 @@ export default {
           this.nome = usuario.name
           if (usuario.gerente_id) {
             const gerente = this.gerentes.find(re => re.value === usuario.gerente_id)
-            this.gerente = {
-              value: gerente.value,
-              text: gerente.text
+            if(gerente){
+              this.gerente = {
+                value: gerente.value,
+                text: gerente.text
+              }
             }
           }
           if (usuario.supervisor_id) {
             const supervisor = this.supervisores.find(re => re.value === usuario.supervisor_id)
-            this.supervisor = {
-              value: supervisor.value,
-              text: supervisor.text
+            if(supervisor){
+              this.supervisor = {
+                value: supervisor.value,
+                text: supervisor.text
+              }
             }
           }
 
           if (usuario.comissao_id) {
             const comissao = this.comissoes.find(re => re.value === usuario.comissao_id)
-            this.comissao = {
-              value: comissao.value,
-              text: comissao.text
+            if(comissao){
+              this.comissao = {
+                value: comissao.value,
+                text: comissao.text
+              }
             }
           }
 
@@ -158,16 +164,16 @@ export default {
     },
     async getRegioes () {
       await this.$axios.get('/painel/regioes').then((r) => {
-        if (r.data) {
-          const regioes = r.data
+        const regioes = r.data
+        if (regioes) {
           this.regioes = regioes
         }
       })
     },
     async getGerentes () {
       await this.$axios.get('/painel/usuarios/gerentes').then((r) => {
-        if (r.data) {
-          const gerentes = r.data
+        const gerentes = r.data
+        if (gerentes) {
           this.gerentes = gerentes.map((reg) => {
             return {
               value: reg.id,
@@ -179,8 +185,8 @@ export default {
     },
     async getSupervisores () {
       await this.$axios.get('/painel/usuarios/supervisores').then((r) => {
-        if (r.data) {
-          const supervisores = r.data
+        const supervisores = r.data
+        if (supervisores) {
           this.supervisores = supervisores.map((reg) => {
             return {
               value: reg.id,
@@ -192,8 +198,8 @@ export default {
     },
     async getComissoes () {
       await this.$axios.get('/painel/comissoes').then((r) => {
-        if (r.data) {
-          const comissoes = r.data
+        const comissoes = r.data
+        if (comissoes) {
           this.comissoes = comissoes.map((reg) => {
             return {
               value: reg.id,
