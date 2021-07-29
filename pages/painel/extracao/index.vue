@@ -80,10 +80,6 @@ export default {
       // if (extracao) {
       //   extracao.status = (extracao.status === 1 ? 0 : 1)
       // }
-
-      // this.extracoes = extracao.map((ex) => {
-      //   return ex
-      // })
       await this.$axios.get(`/painel/extracoes/setar_status/${id}`)
     },
     informarResultado (id) {
