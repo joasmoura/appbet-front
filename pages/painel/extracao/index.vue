@@ -2,8 +2,7 @@
   <v-card>
     <v-card-title>
       Extrações
-
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <v-btn to="/painel/extracao/form" color="white">
         <v-icon>mdi-plus</v-icon> Extração
