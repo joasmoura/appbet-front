@@ -51,6 +51,19 @@
 
           <v-col cols="12" sm="12" md="12">
             Regiões
+
+            <div class="d-flex">
+              <v-checkbox
+                v-for="regiao in regioes"
+                :key="regiao.id"
+                :label="regiao.nome"
+                color="success"
+                class="ml-5"
+                v-model="regiaoSelecionada"
+                :value="regiao.id"
+                hide-details
+              />
+            </div>
           </v-col>
 
         </v-row>
@@ -74,6 +87,7 @@ export default {
     supervisores: [],
     comissoes: [],
     regioes: [],
+    regiaoSelecionada: [],
 
     nome: '',
     perfil: 'cambista',
@@ -105,7 +119,6 @@ export default {
           const usuario = r.data.usuario
 
           this.nome = usuario.name
-
           if (usuario.gerente_id) {
             const gerente = this.gerentes.find(re => re.value === usuario.gerente_id)
             this.gerente = {
@@ -113,7 +126,6 @@ export default {
               text: gerente.text
             }
           }
-
           if (usuario.supervisor_id) {
             const supervisor = this.supervisores.find(re => re.value === usuario.supervisor_id)
             this.supervisor = {
@@ -135,6 +147,12 @@ export default {
           this.email = usuario.email
           this.telefone = usuario.telefone
           this.percentual_premio = usuario.percentual_premio
+
+          if (usuario.regioes) {
+            this.regiaoSelecionada = usuario.regioes.map((reg) => {
+              return reg.id
+            })
+          }
         }
       })
     },
@@ -142,12 +160,7 @@ export default {
       await this.$axios.get('/painel/regioes').then((r) => {
         if (r.data) {
           const regioes = r.data
-          this.regioes = regioes.map((reg) => {
-            return {
-              value: reg.id,
-              text: reg.nome
-            }
-          })
+          this.regioes = regioes
         }
       })
     },
@@ -209,7 +222,8 @@ export default {
         comissao_id: (this.comissao ? this.comissao.value : null),
         percentual_premio: this.percentual_premio,
         gerente_id: (this.gerente ? this.gerente.value : null),
-        supervisor_id: (this.supervisor ? this.supervisor.value : null)
+        supervisor_id: (this.supervisor ? this.supervisor.value : null),
+        regiaoSelecionada: this.regiaoSelecionada
       }).then(
         (r) => {
           if (r.data.status) {
@@ -233,7 +247,8 @@ export default {
         comissao_id: (this.comissao ? this.comissao.value : null),
         percentual_premio: this.percentual_premio,
         gerente_id: (this.gerente ? this.gerente.value : null),
-        supervisor_id: (this.supervisor ? this.supervisor.value : null)
+        supervisor_id: (this.supervisor ? this.supervisor.value : null),
+        regiaoSelecionada: this.regiaoSelecionada
       }).then(
         (r) => {
           if (r.data.status) {
