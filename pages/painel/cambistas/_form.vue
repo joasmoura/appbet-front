@@ -120,7 +120,7 @@ export default {
 
           this.nome = usuario.name
           if (usuario.gerente_id) {
-            const gerente = this.gerentes.find(re => re.value === usuario.gerente_id)
+            const gerente = this.gerentes.find(re => re.value === parseInt(usuario.gerente_id))
             console.log(this.gerentes)
             console.log(gerente)
             if (gerente) {
