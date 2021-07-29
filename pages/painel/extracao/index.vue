@@ -29,7 +29,6 @@
                     <v-checkbox
                       v-model="extracao.status"
                       color="success"
-                      :value="(extracao.status ? 1 : null)"
                       hide-details
                       @change="setaStatus(extracao.id)"
                     ></v-checkbox>
