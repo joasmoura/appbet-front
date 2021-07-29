@@ -99,17 +99,18 @@ export default {
     comissao: '',
     percentual_premio: ''
   }),
-  created () {
-    this.getRegioes()
-    this.getGerentes()
-    this.getSupervisores()
-    this.getComissoes()
-
+  mounted () {
     const idGerente = this.$route.params.form
     if (idGerente !== 'form') {
       this.id = idGerente
       this.getCambista()
     }
+  },
+  created () {
+    this.getRegioes()
+    this.getGerentes()
+    this.getSupervisores()
+    this.getComissoes()
   },
   methods: {
     async getCambista () {
