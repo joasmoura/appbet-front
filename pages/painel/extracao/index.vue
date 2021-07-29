@@ -28,9 +28,12 @@
                     <v-checkbox
                       v-model="extracao.status"
                       color="success"
-                      :value="extracao.status"
+                      :value="(extracao.status === 1 ? false : true)"
                       hide-details
-                      @change="setaStatus(extracao.id)"
+                      @change="(() => {
+                        //extracao.status = (extracao.status === 1 ? false : true)
+                        setaStatus(extracao.id)
+                      })"
                     ></v-checkbox>
                     {{extracao.status}}
                     <!-- <input type="checkbox" v-model="extracao.status" @change="setaStatus(extracao.id)" /> -->
@@ -45,10 +48,7 @@
                       label="Informar resultado"
                       dense
                       solo
-                      @change="(id) => {
-                        extracao.status = (extracao.status === 1 ? 0 : 1)
-                        informarResultado(id)
-                      }"
+                      @change="informarResultado"
                     ></v-select>
                   </td>
                 </tr>
