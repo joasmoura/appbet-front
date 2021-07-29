@@ -107,6 +107,117 @@
                     </v-row>
                   </td>
                 </tr>
+
+                <tr>
+                  <td>Milhar e Centena</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Milhar Invertida</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>MC Invertida</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Centena Invertida</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Centena Invertida</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Terno de Duque</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Duque de Dezena</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Passe Combinado</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Terno de Grupo Combinado</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Passe Seco</td>
+                  <td>
+                    <v-row>
+                      <v-col md="3">
+                        <v-text-field label="" solo></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </td>
+                </tr>
+
               </tbody>
 
             </template>
