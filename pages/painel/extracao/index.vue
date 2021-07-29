@@ -26,12 +26,11 @@
                   <td>{{extracao.data}}</td>
                   <td>
                     <v-checkbox
-                      v-model="extracao.status"
                       color="success"
-                      :value="(extracao.status === 1 ? false : true)"
+                      v-model="extracao.status"
                       hide-details
                       @change="(() => {
-                        //extracao.status = (extracao.status === 1 ? false : true)
+                        extracao.status = (extracao.status === 1 ? 0 : 1)
                         setaStatus(extracao.id)
                       })"
                     ></v-checkbox>
