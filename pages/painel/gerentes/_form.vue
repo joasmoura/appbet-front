@@ -108,7 +108,7 @@ export default {
 
           this.nome = usuario.name
 
-          const regiao = this.regioes.find(re => re.value === parseInt(usuario.regiao_id))
+          const regiao = this.regioes.find(re => parseInt(re.value) === parseInt(usuario.regiao_id))
           this.regiao = {
             value: regiao.value,
             text: regiao.text
