@@ -51,7 +51,6 @@
                         </v-col>
                       </v-row>
                     </td>
-
                   </tr>
 
                   <tr>
@@ -154,17 +153,6 @@
                   </tr>
 
                   <tr>
-                    <td>Terno de Duque</td>
-                    <td>
-                      <v-row>
-                        <v-col md="3">
-                          <v-text-field v-model="mercado.terno_duque" label="" solo></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </td>
-                  </tr>
-
-                  <tr>
                     <td>Duque de Dezena</td>
                     <td>
                       <v-row>
@@ -191,7 +179,7 @@
                     <td>
                       <v-row>
                         <v-col md="3">
-                          <v-text-field v-model="mercado.terno_duque_combinado" label="" solo></v-text-field>
+                          <v-text-field v-model="mercado.terno_grupo_combinado" label="" solo></v-text-field>
                         </v-col>
                       </v-row>
                     </td>
@@ -203,6 +191,50 @@
                       <v-row>
                         <v-col md="3">
                           <v-text-field v-model="mercado.passe_seco" label="" solo></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Terno Dezena Cercado</td>
+                    <td>
+                      <v-row>
+                        <v-col md="3">
+                          <v-text-field v-model="mercado.terno_dezena_cercado" label="" solo></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Grupo Combinado</td>
+                    <td>
+                      <v-row>
+                        <v-col md="3">
+                          <v-text-field v-model="mercado.grupo_combinado" label="" solo></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Passe Vai Vem</td>
+                    <td>
+                      <v-row>
+                        <v-col md="3">
+                          <v-text-field v-model="mercado.passe_vai_vem" label="" solo></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Passe Vai</td>
+                    <td>
+                      <v-row>
+                        <v-col md="3">
+                          <v-text-field v-model="mercado.passe_vai" label="" solo></v-text-field>
                         </v-col>
                       </v-row>
                     </td>
@@ -245,11 +277,14 @@ export default {
       milhar_invertida: '',
       mc_invertida: '',
       centena_invertida: '',
-      terno_duque: '',
       duque_dezena: '',
       passe_combinado: '',
-      terno_duque_combinado: '',
-      passe_seco: ''
+      terno_grupo_combinado: '',
+      passe_seco: '',
+      terno_dezena_cercado: '',
+      grupo_combinado: '',
+      passe_vai_vem: '',
+      passe_vai: ''
     },
 
     regiao: ''
@@ -287,11 +322,14 @@ export default {
         this.mercado.milhar_invertida = (mercado ? mercado.milhar_invertida : '')
         this.mercado.mc_invertida = (mercado ? mercado.mc_invertida : '')
         this.mercado.centena_invertida = (mercado ? mercado.centena_invertida : '')
-        this.mercado.terno_duque = (mercado ? mercado.terno_duque : '')
         this.mercado.duque_dezena = (mercado ? mercado.duque_dezena : '')
         this.mercado.passe_combinado = (mercado ? mercado.passe_combinado : '')
-        this.mercado.terno_duque_combinado = (mercado ? mercado.terno_duque_combinado : '')
+        this.mercado.terno_grupo_combinado = (mercado ? mercado.terno_grupo_combinado : '')
         this.mercado.passe_seco = (mercado ? mercado.passe_seco : '')
+        this.mercado.terno_dezena_cercado = (mercado ? mercado.terno_dezena_cercado : '')
+        this.mercado.grupo_combinado = (mercado ? mercado.grupo_combinado : '')
+        this.mercado.passe_vai_vem = (mercado ? mercado.passe_vai_vem : '')
+        this.mercado.passe_vai = (mercado ? mercado.passe_vai : '')
       })
     },
     salvar () {

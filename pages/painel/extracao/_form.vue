@@ -2,7 +2,7 @@
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
-        {{(!id ? 'Cadastrar extensão' : 'Editar Extenção')}}
+        {{(!id ? 'Cadastrar Extração' : 'Editar Extração')}}
 
         <v-spacer></v-spacer>
 
