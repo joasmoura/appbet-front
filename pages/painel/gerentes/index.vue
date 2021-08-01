@@ -44,7 +44,7 @@
               <tbody>
                 <tr v-for="gerente in gerentes" :key="gerente.id">
                   <td>{{gerente.name}}</td>
-                  <td>{{gerente.regiao_id}}</td>
+                  <td>{{gerente.regiao.nome}}</td>
                   <td>{{gerente.limite_credito}}</td>
                   <td><v-btn :to="`/painel/gerentes/${gerente.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn></td>
                 </tr>

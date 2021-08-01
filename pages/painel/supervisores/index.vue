@@ -43,7 +43,7 @@
               <tbody>
                 <tr v-for="supervisor in supervisores" :key="supervisor.id">
                   <td>{{supervisor.name}}</td>
-                  <td>{{supervisor.regiao_id}}</td>
+                  <td>{{supervisor.regiao.nome}}</td>
                   <td>
                     <v-btn :to="`/painel/supervisores/${supervisor.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
                   </td>

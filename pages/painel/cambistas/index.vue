@@ -48,8 +48,8 @@
                 <tbody>
                   <tr v-for="cambista in cambistas" :key="cambista.id">
                     <td>{{cambista.name}}</td>
-                    <td>{{cambista.gerente_id}}</td>
-                    <td>{{cambista.comissao_id}}</td>
+                    <td>{{(cambista.gerente ? cambista.gerente.name : '')}}</td>
+                    <td>{{cambista.comissao.nome}}</td>
                     <td>{{cambista.username}}</td>
                     <td>{{cambista.telefone}}</td>
                     <td>
