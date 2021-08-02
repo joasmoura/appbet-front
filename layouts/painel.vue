@@ -98,6 +98,10 @@
 
       <v-toolbar-title v-text="title" />
       <v-spacer />
+
+      <v-btn icon @click="$auth.logout()" >
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -171,6 +175,9 @@ export default {
       rightDrawer: false,
       title: 'AppBet'
     }
+  },
+  methods: {
+
   }
 }
 </script>
