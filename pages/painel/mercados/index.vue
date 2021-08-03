@@ -13,20 +13,23 @@
           </v-col>
 
           <v-col cols="12" sm="12" md="12">
-            <v-divider/>
+            <v-divider />
           </v-col>
 
-          <v-col cols="12" sm="12" md="12" class="d-flex flex-row-reverse">
+          <v-col cols="12" sm="12" md="12" class="d-flex flex-row-reverse" v-if="regiao">
             <v-btn type="submit" color="primary"><v-icon>mdi-save</v-icon> Salvar</v-btn>
           </v-col>
 
-          <v-col cols="12" sm="12" md="12">
+          <v-col cols="12" sm="12" md="12" v-if="regiao">
             <v-simple-table>
               <template v-slot:default>
                 <thead>
                   <tr>
+                    <th class="text-left">Código</th>
+                    <th class="text-left"></th>
                     <th class="text-left">Nome</th>
-                    <th class="text-left">Cotação</th>
+                    <th class="text-left">Congregação</th>
+                    <th class="text-left"></th>
                   </tr>
                 </thead>
 
@@ -250,7 +253,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-col cols="12" sm="12" md="12" class="d-flex flex-row-reverse">
+        <v-col cols="12" sm="12" md="12" class="d-flex flex-row-reverse" v-if="regiao">
             <v-btn type="submit" color="primary"><v-icon>mdi-save</v-icon> Salvar</v-btn>
           </v-col>
       </v-card-actions>
