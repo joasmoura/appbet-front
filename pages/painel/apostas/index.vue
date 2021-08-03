@@ -78,19 +78,19 @@
                         <v-card class="mt-2 mb-2">
                           <v-card-text>
                             <v-row>
-                              <v-col cols="12" sm="2" md="2">
+                              <v-col cols="3" sm="2" md="2">
                                 {{item.subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}
                               </v-col>
 
-                              <v-col cols="12" sm="2" md="2">
+                              <v-col cols="3" sm="2" md="2">
                                 {{item.premio_de}}º ao {{item.premio_ate}}º
                               </v-col>
 
-                              <v-col cols="12" sm="2" md="2">
+                              <v-col cols="3" sm="2" md="2">
                                 {{getModalidade(item.modalidade )}}
                               </v-col>
 
-                              <v-col cols="12" sm="2" md="2">
+                              <v-col cols="3" sm="2" md="2">
                                 {{item.poss_ganho.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}
                               </v-col>
 
