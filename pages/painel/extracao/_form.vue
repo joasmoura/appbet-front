@@ -14,7 +14,6 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <!-- <v-text-field v-model="data" prepend-icon="mdi-calendar-month" placeholder="dd/MM/YYYY" label="Data"></v-text-field> -->
             <v-input>
               <date-picker v-model="data" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="dd/MM/YYYY" />
             </v-input>

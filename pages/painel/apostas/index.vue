@@ -58,13 +58,13 @@
               </thead>
 
               <tbody>
-                <template v-for="aposta in apostas" >
+                <template v-for="aposta in apostas">
                   <tr :key="aposta.id">
                     <td>{{aposta.codigo}}</td>
                     <td>{{aposta.hora}}</td>
                     <td>{{aposta.cambista.name}}</td>
                     <td>{{aposta.extracao.data}} {{aposta.horario.nome}}</td>
-                    <td>{{aposta.total}}</td>
+                    <td>{{aposta.total.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
                     <td>
                       <v-btn small color="primary red darken-2">
                         <v-icon>mdi-cancel</v-icon> Cancelar

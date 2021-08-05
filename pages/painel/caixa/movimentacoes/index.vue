@@ -1,10 +1,15 @@
 <template>
   <v-card>
-    <v-card-title>Movimentações Financeiras
+    <v-card-title>
+      Movimentações Financeiras
 
       <v-spacer />
 
+      <v-btn href="/painel/caixa/movimentacoes/form" color="white">
+        <v-icon>mdi-plus</v-icon> Movimentação
+      </v-btn>
     </v-card-title>
+
     <v-card-text>
       <v-row>
         <v-col cols="12" sm="6" md="2">
@@ -32,7 +37,7 @@
         </v-col>
 
         <v-col cols="12" sm="6" md="1">
-          <v-btn v-on:click="pesquisar"><v-icon>mdi-magnify</v-icon></v-btn>
+          <v-btn><v-icon>mdi-magnify</v-icon></v-btn>
         </v-col>
 
       </v-row>
@@ -52,15 +57,15 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>25/07/2021</td>
-              <td>25/07/2021</td>
-              <td>Nome</td>
-              <td>Descrição</td>
-              <td>Débito</td>
-              <td>10,00</td>
+            <tr v-for="movimentacao in movimentacoes" :key="movimentacao.id">
+              <td>{{movimentacao.data_criacao}}</td>
+              <td>{{movimentacao.data}}</td>
+              <td>{{movimentacao.cambista.name}}</td>
+              <td>{{movimentacao.descricao}}</td>
+              <td>{{movimentacao.tipo}}</td>
+              <td>{{movimentacao.valor.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
               <td>
-                <v-btn to="/painel/caixa/movimentacoes/form">
+                <v-btn :to="`/painel/caixa/movimentacoes/${movimentacao.id}`">
                   <v-icon>mdi-file-document-edit-outline</v-icon>
                 </v-btn>
               </td>
@@ -89,15 +94,24 @@ export default {
     ],
     gerentes: [],
     cambistas: [],
+    movimentacoes: [],
 
     beneficiario: '',
     tipo: '',
     gerente: '',
     cambista: ''
   }),
-  method: {
-    pesquisar () {
-
+  created () {
+    this.getMovimentacoes()
+  },
+  methods: {
+    async getMovimentacoes () {
+      await this.$axios.get('/painel/movimentacao').then((r) => {
+        const movimentacoes = r.data
+        if (movimentacoes) {
+          this.movimentacoes = movimentacoes
+        }
+      })
     }
   }
 }
