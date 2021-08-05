@@ -63,7 +63,7 @@
               <td>{{movimentacao.usuario.name}}</td>
               <td>{{movimentacao.descricao}}</td>
               <td>{{movimentacao.tipo}}</td>
-              <td>{{movimentacao.valor.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+              <td>{{movimentacao.valor}}</td>
               <td>
                 <v-btn :to="`/painel/caixa/movimentacoes/${movimentacao.id}`">
                   <v-icon>mdi-file-document-edit-outline</v-icon>

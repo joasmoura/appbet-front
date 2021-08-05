@@ -34,11 +34,11 @@
             <tr v-for="cambista in cambistas" :key="cambista.id">
               <td>{{cambista.name}}</td>
               <td></td>
-              <td>{{cambista.entradas.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+              <td>{{cambista.entradas}}</td>
               <td></td>
-              <td>{{cambista.creditos.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+              <td>{{cambista.creditos}}</td>
               <td></td>
-              <td>{{cambista.retiradas.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+              <td>{{cambista.retiradas}}</td>
               <td></td>
               <td>
                 <v-btn color="primary" small @click="() => creditar(cambista.id)">Creditar</v-btn>

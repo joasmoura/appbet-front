@@ -64,7 +64,7 @@
                     <td>{{aposta.hora}}</td>
                     <td>{{aposta.cambista.name}}</td>
                     <td>{{aposta.extracao.data}} {{aposta.horario.nome}}</td>
-                    <td>{{aposta.total.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+                    <td>{{aposta.total}}</td>
                     <td>
                       <v-btn small color="primary red darken-2">
                         <v-icon>mdi-cancel</v-icon> Cancelar
@@ -79,7 +79,7 @@
                           <v-card-text>
                             <v-row>
                               <v-col cols="3" sm="2" md="2">
-                                {{item.subtotal.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}
+                                {{item.subtotal}}
                               </v-col>
 
                               <v-col cols="3" sm="2" md="2">

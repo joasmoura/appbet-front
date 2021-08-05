@@ -33,10 +33,10 @@
             <tr v-for="supervisor in supervisores" :key="supervisor.id">
               <td>{{supervisor.name}}</td>
               <td></td>
-              <td>{{supervisor.entradas.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+              <td>{{supervisor.entradas}}</td>
               <td></td>
-              <td>{{supervisor.creditos.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
-              <td>{{supervisor.retiradas.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
+              <td>{{supervisor.creditos}}</td>
+              <td>{{supervisor.retiradas}}</td>
               <td></td>
               <td>
                 <v-btn color="primary" small @click="() => creditar(supervisor.id)">Creditar</v-btn>
