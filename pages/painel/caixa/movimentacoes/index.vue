@@ -60,7 +60,7 @@
             <tr v-for="movimentacao in movimentacoes" :key="movimentacao.id">
               <td>{{movimentacao.data_criacao}}</td>
               <td>{{movimentacao.data}}</td>
-              <td>{{movimentacao.cambista.name}}</td>
+              <td>{{movimentacao.usuario.name}}</td>
               <td>{{movimentacao.descricao}}</td>
               <td>{{movimentacao.tipo}}</td>
               <td>{{movimentacao.valor.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>

@@ -14,7 +14,7 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="cambista" :items="cambistas" label="Cambista"></v-combobox>
+            <v-combobox v-model="usuario" :items="cambistas" label="Cambista"></v-combobox>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
@@ -67,7 +67,7 @@ export default {
     menu1: true,
     descricao: '',
     valor: '',
-    cambista: '',
+    usuario: '',
     tipo: '',
     data: new Date(),
     lang: {
