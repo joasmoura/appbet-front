@@ -23,9 +23,30 @@
               <th class="text-left">Créditos</th>
               <th class="text-left">Débitos</th>
               <th class="text-left">Saldo</th>
-              <th class="text-left">Ação</th>
+              <th class="text-left"></th>
             </tr>
           </thead>
+
+          <tbody>
+            <tr v-for="gerente in gerentes" :key="gerente.id">
+              <td>{{gerente.name}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <v-btn color="primary" small>
+                  Creditar
+                </v-btn>
+
+                <v-btn color="primary red" small>
+                  Debitar
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
 
         </template>
       </v-simple-table>
@@ -36,6 +57,23 @@
 
 <script>
 export default {
-  layout: 'painel'
+  layout: 'painel',
+  data () {
+    return {
+      gerentes: []
+    }
+  },
+  created () {
+    this.getCaixa()
+  },
+  methods: {
+    async getCaixa () {
+      await this.$axios.get('/painel/caixa/caixa_gerentes').then((r) => {
+        if (r.data) {
+          this.gerentes = r.data
+        }
+      })
+    }
+  }
 }
 </script>

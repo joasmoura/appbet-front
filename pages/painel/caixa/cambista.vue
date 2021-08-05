@@ -29,6 +29,28 @@
             </tr>
           </thead>
 
+          <tbody>
+            <tr v-for="cambista in cambistas" :key="cambista.id">
+              <td>{{cambista.name}}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <v-btn color="primary" small>
+                  Creditar
+                </v-btn>
+
+                <v-btn color="primary red" small>
+                  Debitar
+                </v-btn>
+              </td>
+            </tr>
+          </tbody>
+
         </template>
       </v-simple-table>
 
@@ -38,6 +60,23 @@
 
 <script>
 export default {
-  layout: 'painel'
+  layout: 'painel',
+  data () {
+    return {
+      cambistas: []
+    }
+  },
+  created () {
+    this.getCaixa()
+  },
+  methods: {
+    async getCaixa () {
+      await this.$axios.get('/painel/caixa/caixa_cambistas').then((r) => {
+        if (r.data) {
+          this.cambistas = r.data
+        }
+      })
+    }
+  }
 }
 </script>
