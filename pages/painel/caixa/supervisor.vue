@@ -33,7 +33,7 @@
             <tr v-for="supervisor in supervisores" :key="supervisor.id">
               <td>{{supervisor.name}}</td>
               <td></td>
-              <td></td>
+              <td>{{supervisor.entradas.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
               <td></td>
               <td>{{supervisor.creditos.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
               <td>{{supervisor.retiradas.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}</td>
