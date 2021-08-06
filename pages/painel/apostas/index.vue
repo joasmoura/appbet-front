@@ -64,7 +64,7 @@
                     <td>{{aposta.hora}}</td>
                     <td>{{aposta.cambista.name}}</td>
                     <td>{{aposta.extracao.data}} {{aposta.horario.nome}}</td>
-                    <td>{{aposta.total}}</td>
+                    <td>{{moeda(aposta.total)}}</td>
                     <td>
                       <v-btn small color="primary red darken-2">
                         <v-icon>mdi-cancel</v-icon> Cancelar
@@ -79,7 +79,7 @@
                           <v-card-text>
                             <v-row>
                               <v-col cols="3" sm="2" md="2">
-                                {{item.subtotal}}
+                                {{moeda(item.subtotal)}}
                               </v-col>
 
                               <v-col cols="3" sm="2" md="2">
@@ -91,7 +91,7 @@
                               </v-col>
 
                               <v-col cols="3" sm="2" md="2">
-                                {{item.poss_ganho.toLocaleString("pt-BR", { style: "currency" , currency:"BRL"})}}
+                                {{moeda(item.poss_ganho)}}
                               </v-col>
 
                               <v-col cols="12">
@@ -171,6 +171,9 @@ export default {
     this.getApostas()
   },
   methods: {
+    moeda (moeda) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
+    },
     async getApostas () {
       await this.$axios.get('/painel/apostas').then((r) => {
         if (r.data) {
