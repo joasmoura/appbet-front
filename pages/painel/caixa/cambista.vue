@@ -34,11 +34,11 @@
             <tr v-for="cambista in cambistas" :key="cambista.id">
               <td>{{cambista.name}}</td>
               <td></td>
-              <td>{{cambista.entradas}}</td>
+              <td>{{moeda(cambista.entradas)}}</td>
               <td></td>
-              <td>{{cambista.creditos}}</td>
+              <td>{{moeda(cambista.creditos)}}</td>
               <td></td>
-              <td>{{cambista.retiradas}}</td>
+              <td>{{moeda(cambista.retiradas)}}</td>
               <td></td>
               <td>
                 <v-btn color="primary" small @click="() => creditar(cambista.id)">Creditar</v-btn>
@@ -119,6 +119,9 @@ export default {
     this.getCaixa()
   },
   methods: {
+    moeda (moeda) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
+    },
     creditar (id) {
       this.tipo = 'credito'
       this.dialog = true

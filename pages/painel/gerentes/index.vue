@@ -45,7 +45,7 @@
                 <tr v-for="gerente in gerentes" :key="gerente.id">
                   <td>{{gerente.name}}</td>
                   <td>{{gerente.regiao.nome}}</td>
-                  <td>{{gerente.limite_credito}}</td>
+                  <td>{{moeda(gerente.limite_credito)}}</td>
                   <td><v-btn :to="`/painel/gerentes/${gerente.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn></td>
                 </tr>
               </tbody>
@@ -71,6 +71,9 @@ export default {
     this.getGerentes()
   },
   methods: {
+    moeda (moeda) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
+    },
     getGerentes () {
       this.$axios.get('/painel/usuarios/gerentes').then((r) => {
         if (r.data) {

@@ -33,10 +33,10 @@
             <tr v-for="supervisor in supervisores" :key="supervisor.id">
               <td>{{supervisor.name}}</td>
               <td></td>
-              <td>{{supervisor.entradas}}</td>
+              <td>{{moeda(supervisor.entradas)}}</td>
               <td></td>
-              <td>{{supervisor.creditos}}</td>
-              <td>{{supervisor.retiradas}}</td>
+              <td>{{moeda(supervisor.creditos)}}</td>
+              <td>{{moeda(supervisor.retiradas)}}</td>
               <td></td>
               <td>
                 <v-btn color="primary" small @click="() => creditar(supervisor.id)">Creditar</v-btn>
@@ -117,6 +117,9 @@ export default {
     this.getCaixa()
   },
   methods: {
+    moeda (moeda) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
+    },
     creditar (id) {
       this.tipo = 'credito'
       this.dialog = true

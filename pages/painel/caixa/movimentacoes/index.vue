@@ -57,13 +57,13 @@
           </thead>
 
           <tbody>
-            <tr v-for="movimentacao in movimentacoes" :key="movimentacao.id">
+            <tr v-for="movimentacao in movimentacoes" :key="movimentacao.id" :class="(movimentacao.tipo == 'retirada' ? 'red--text' : 'green--text')">
               <td>{{movimentacao.data_criacao}}</td>
               <td>{{movimentacao.data}}</td>
               <td>{{movimentacao.usuario.name}}</td>
               <td>{{movimentacao.descricao}}</td>
               <td>{{movimentacao.tipo}}</td>
-              <td>{{movimentacao.valor}}</td>
+              <td>{{moeda(movimentacao.valor)}}</td>
               <td>
                 <v-btn :to="`/painel/caixa/movimentacoes/${movimentacao.id}`">
                   <v-icon>mdi-file-document-edit-outline</v-icon>
@@ -105,6 +105,9 @@ export default {
     this.getMovimentacoes()
   },
   methods: {
+    moeda (moeda) {
+      return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
+    },
     async getMovimentacoes () {
       await this.$axios.get('/painel/movimentacao').then((r) => {
         const movimentacoes = r.data
