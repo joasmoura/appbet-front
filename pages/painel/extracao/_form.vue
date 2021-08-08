@@ -25,15 +25,21 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="nome" label="Nome"></v-text-field>
+            <v-text-field v-model="nome" solo dense label="Nome"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="hora" type="time" prepend-icon="mdi-clock-outline" label="Hora"></v-text-field>
+            <v-text-field
+              v-model="hora"
+              type="time"
+              solo
+              dense
+              prepend-icon="mdi-clock-outline"
+              label="Hora"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="regiao" :items="regioes" label="Região"></v-combobox>
+            <v-combobox v-model="regiao" solo dense :items="regioes" label="Região"></v-combobox>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
@@ -152,12 +158,19 @@ export default {
       })
     },
     adicionar_horario () {
-      this.horarios.push({
-        id: '',
-        nome: this.nome,
-        hora: this.hora,
-        regiao: this.regiao
-      })
+      if (this.nome && this.hora && this.regiao) {
+        this.horarios.push({
+          id: '',
+          nome: this.nome,
+          hora: this.hora,
+          regiao: this.regiao
+        })
+      } else {
+        Swall.fire({
+          icon: 'warning',
+          title: 'Preencha dos os campos!'
+        })
+      }
     },
     remover (index) {
       const hora = this.horarios[index]
@@ -179,20 +192,27 @@ export default {
       }
     },
     criar () {
-      this.$axios.post('/painel/extracoes', {
-        data: this.data,
-        horarios: this.horarios
-      }).then(
-        (r) => {
-          if (r.data.status) {
-            this.$router.push('/painel/extracao')
-            Swall.fire({
-              icon: 'success',
-              title: 'Extração cadastrada com sucesso'
-            })
+      if (this.data.length && this.horarios.length) {
+        this.$axios.post('/painel/extracoes', {
+          data: this.data,
+          horarios: this.horarios
+        }).then(
+          (r) => {
+            if (r.data.status) {
+              this.$router.push('/painel/extracao')
+              Swall.fire({
+                icon: 'success',
+                title: 'Extração cadastrada com sucesso'
+              })
+            }
           }
-        }
-      )
+        )
+      } else {
+        Swall.fire({
+          icon: 'warning',
+          title: 'Necessário selecionar uma data e adicionar pelo menos uma extração!'
+        })
+      }
     },
     atualizar () {
       const data = this.data

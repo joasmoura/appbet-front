@@ -14,23 +14,31 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field prepend-icon="mdi-tag" v-model="nome" label="Nome"></v-text-field>
+            <v-text-field prepend-icon="mdi-tag" solo v-model="nome" label="Nome"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field prepend-icon="mdi-cash" v-model="comissao_faturamento" label="Comissão faturamento"></v-text-field>
+            <v-text-field prepend-icon="mdi-cash" solo v-model="comissao_faturamento" label="Comissão faturamento"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field prepend-icon="mdi-cash" v-model="comissao_lucro" label="Comissão lucro"></v-text-field>
+            <v-text-field prepend-icon="mdi-cash" solo v-model="comissao_lucro" label="Comissão lucro"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="2">
-            <v-combobox v-model="regiao" item-value="value" item-text="text" :items="regioes" label="Região"></v-combobox>
+            <v-combobox
+            v-model="regiao"
+            solo
+            item-value="value"
+            item-text="text"
+            :items="regioes"
+            label="Região">
+
+            </v-combobox>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field prepend-icon="mdi-cash" v-model="limite_credito" label="Limite de crédito"></v-text-field>
+            <v-text-field prepend-icon="mdi-cash" solo v-model="limite_credito" label="Limite de crédito"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="12">
@@ -39,15 +47,15 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-text-field prepend-icon="mdi-account" v-model="username" label="Login"></v-text-field>
+            <v-text-field prepend-icon="mdi-account" solo v-model="username" label="Login"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-text-field prepend-icon="mdi-key" type="password" v-model="password" label="Senha"></v-text-field>
+            <v-text-field prepend-icon="mdi-key" solo type="password" v-model="password" label="Senha"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-text-field prepend-icon="mdi-email" v-model="email" label="Email"></v-text-field>
+            <v-text-field prepend-icon="mdi-email" solo v-model="email" label="Email"></v-text-field>
           </v-col>
         </v-row>
 

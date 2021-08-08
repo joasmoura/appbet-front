@@ -113,7 +113,14 @@
     </v-card-text>
 
     <v-card-actions>
-
+      <div class="text-center">
+        <v-pagination
+          v-model="pagination.current"
+          :length="pagination.total"
+          total-visible="10"
+          @input="onPageChange"
+        ></v-pagination>
+      </div>
     </v-card-actions>
   </v-card>
 </template>
@@ -165,7 +172,11 @@ export default {
 
     cambista: '',
     gerente: '',
-    resultado: ''
+    resultado: '',
+    pagination: {
+      current: 1,
+      total: 0
+    }
   }),
   created () {
     this.getApostas()
@@ -175,9 +186,12 @@ export default {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
     async getApostas () {
-      await this.$axios.get('/painel/apostas').then((r) => {
-        if (r.data) {
-          this.apostas = r.data
+      await this.$axios.get(`/painel/apostas?page=${this.pagination.current}`).then((r) => {
+        const apostas = r.data
+        if (apostas) {
+          this.apostas = apostas.data
+          this.pagination.current = apostas.current_page
+          this.pagination.total = apostas.last_page
         }
       })
     },
@@ -195,6 +209,9 @@ export default {
       })
 
       return novoNumero
+    },
+    onPageChange () {
+      this.getApostas()
     }
   }
 }

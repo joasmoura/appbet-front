@@ -25,34 +25,45 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="1">
-            <v-btn v-on:click="pesquisar"><v-icon>mdi-magnify</v-icon> Filtrar</v-btn>
+            <v-btn ><v-icon>mdi-magnify</v-icon> Filtrar</v-btn>
           </v-col>
 
       </v-row>
 
       <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Nome</th>
-                  <th class="text-left">Região</th>
-                  <th class="text-left">Limite</th>
-                  <th class="text-left"></th>
-                </tr>
-              </thead>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Nome</th>
+              <th class="text-left">Região</th>
+              <th class="text-left">Limite</th>
+              <th class="text-left"></th>
+            </tr>
+          </thead>
 
-              <tbody>
-                <tr v-for="gerente in gerentes" :key="gerente.id">
-                  <td>{{gerente.name}}</td>
-                  <td>{{gerente.regiao.nome}}</td>
-                  <td>{{moeda(gerente.limite_credito)}}</td>
-                  <td><v-btn :to="`/painel/gerentes/${gerente.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn></td>
-                </tr>
-              </tbody>
+          <tbody>
+            <tr v-for="gerente in gerentes" :key="gerente.id">
+              <td>{{gerente.name}}</td>
+              <td>{{gerente.regiao.nome}}</td>
+              <td>{{moeda(gerente.limite_credito)}}</td>
+              <td><v-btn :to="`/painel/gerentes/${gerente.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn></td>
+            </tr>
+          </tbody>
 
-            </template>
-          </v-simple-table>
+        </template>
+      </v-simple-table>
     </v-card-text>
+
+    <v-card-actions>
+      <div class="text-center">
+        <v-pagination
+          v-model="pagination.current"
+          :length="pagination.total"
+          total-visible="10"
+          @input="onPageChange"
+        ></v-pagination>
+      </div>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -65,7 +76,11 @@ export default {
     gerentes: [],
 
     status: '',
-    regiao: ''
+    regiao: '',
+    pagination: {
+      current: 1,
+      total: 0
+    }
   }),
   created () {
     this.getGerentes()
@@ -75,11 +90,17 @@ export default {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
     getGerentes () {
-      this.$axios.get('/painel/usuarios/gerentes').then((r) => {
-        if (r.data) {
-          this.gerentes = r.data
+      this.$axios.get(`/painel/usuarios/gerentes?page=${this.pagination.current}`).then((r) => {
+        const gerentes = r.data
+        if (gerentes) {
+          this.gerentes = gerentes.data
+          this.pagination.current = gerentes.current_page
+          this.pagination.total = gerentes.last_page
         }
       })
+    },
+    onPageChange () {
+      this.getGerentes()
     }
   }
 }

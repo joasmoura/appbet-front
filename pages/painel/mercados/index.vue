@@ -9,7 +9,7 @@
         <v-row>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="regiao" :items="regioes" @change="selecionaRegiao" label="Regiões" ></v-combobox>
+            <v-combobox v-model="regiao" solo :items="regioes" @change="selecionaRegiao" label="Regiões" ></v-combobox>
           </v-col>
 
           <v-col cols="12" sm="12" md="12">
@@ -337,15 +337,42 @@ export default {
     },
     salvar () {
       if (this.regiao) {
-        if (this.mercado.regiao_id) {
-          this.atualizar()
+        if (this.mercado.grupo.length > 0 && this.mercado.dezena.length > 0 &&
+          this.mercado.centena.length > 0 &&
+          this.mercado.milhar.length > 0 &&
+          this.mercado.duque_grupo.length > 0 &&
+          this.mercado.terno_grupo.length > 0 &&
+          this.mercado.terno_dezena.length > 0 &&
+          this.mercado.milhar_centena.length > 0 &&
+          this.mercado.milhar_invertida.length > 0 &&
+          this.mercado.mc_invertida.length > 0 &&
+          this.mercado.centena_invertida.length > 0 &&
+          this.mercado.duque_dezena.length > 0 &&
+          this.mercado.passe_combinado.length > 0 &&
+          this.mercado.terno_grupo_combinado.length > 0 &&
+          this.mercado.passe_seco.length > 0 &&
+          this.mercado.terno_dezena_cercado.length > 0 &&
+          this.mercado.grupo_combinado.length > 0 &&
+          this.mercado.passe_vai_vem.length > 0 &&
+          this.mercado.passe_vai.length > 0
+        ) {
+          if (this.mercado.regiao_id) {
+            this.atualizar()
+          } else {
+            this.criar()
+          }
         } else {
-          this.criar()
+          Swall.fire({
+            title: 'Preencha todos os campos!',
+            icon: 'warning',
+            timer: 1500
+          })
         }
       } else {
         Swall.fire({
           title: 'Selecione uma região',
-          icon: 'warning'
+          icon: 'warning',
+          timer: 1500
         })
       }
     },

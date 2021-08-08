@@ -76,6 +76,17 @@
       </v-simple-table>
 
     </v-card-text>
+
+    <v-card-actions>
+      <div class="text-center">
+        <v-pagination
+          v-model="pagination.current"
+          :length="pagination.total"
+          total-visible="10"
+          @input="onPageChange"
+        ></v-pagination>
+      </div>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -99,7 +110,11 @@ export default {
     beneficiario: '',
     tipo: '',
     gerente: '',
-    cambista: ''
+    cambista: '',
+    pagination: {
+      current: 1,
+      total: 0
+    }
   }),
   created () {
     this.getMovimentacoes()
@@ -109,12 +124,17 @@ export default {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
     async getMovimentacoes () {
-      await this.$axios.get('/painel/movimentacao').then((r) => {
+      await this.$axios.get(`/painel/movimentacao?page=${this.pagination.current}`).then((r) => {
         const movimentacoes = r.data
         if (movimentacoes) {
-          this.movimentacoes = movimentacoes
+          this.movimentacoes = movimentacoes.data
+          this.pagination.current = movimentacoes.current_page
+          this.pagination.total = movimentacoes.last_page
         }
       })
+    },
+    onPageChange () {
+      this.getMovimentacoes()
     }
   }
 }

@@ -9,6 +9,7 @@
           <v-icon>mdi-plus</v-icon> Cambista
         </v-btn>
       </v-card-title>
+
       <v-card-text>
         <v-form>
           <v-container>
@@ -27,7 +28,7 @@
               </v-col>
 
               <v-col cols="12" sm="6" md="1">
-                <v-btn v-on:click="pesquisar"><v-icon>mdi-magnify</v-icon> Filtrar</v-btn>
+                <v-btn><v-icon>mdi-magnify</v-icon> Filtrar</v-btn>
               </v-col>
 
             </v-row>
@@ -65,7 +66,14 @@
       </v-card-text>
 
       <v-card-actions>
-
+        <div class="text-center">
+          <v-pagination
+            v-model="pagination.current"
+            :length="pagination.total"
+            total-visible="10"
+            @input="onPageChange"
+          ></v-pagination>
+        </div>
       </v-card-actions>
     </v-card>
   </v-form>
@@ -80,21 +88,28 @@ export default {
     lista_status: [],
 
     gerente: '',
-    status: ''
+    status: '',
+    pagination: {
+      current: 1,
+      total: 0
+    }
   }),
   created () {
     this.getCambistas()
   },
   methods: {
     getCambistas () {
-      this.$axios.get('/painel/usuarios/cambistas').then((r) => {
-        if (r.data) {
-          this.cambistas = r.data
+      this.$axios.get(`/painel/usuarios/cambistas?page=${this.pagination.current}`).then((r) => {
+        const cambistas = r.data
+        if (cambistas) {
+          this.cambistas = cambistas.data
+          this.pagination.current = cambistas.current_page
+          this.pagination.total = cambistas.last_page
         }
       })
     },
-    pesquisar () {
-
+    onPageChange () {
+      this.getCambistas()
     }
   }
 }

@@ -47,8 +47,18 @@
 
         </template>
       </v-simple-table>
-
     </v-card-text>
+
+    <v-card-actions>
+      <div class="text-center">
+        <v-pagination
+          v-model="pagination.current"
+          :length="pagination.total"
+          total-visible="10"
+          @input="onPageChange"
+        ></v-pagination>
+      </div>
+    </v-card-actions>
   </v-card>
 
   <v-row justify="center">
@@ -110,7 +120,11 @@ export default {
         monthBeforeYear: false
       },
       tipo: '',
-      id: ''
+      id: '',
+      pagination: {
+        current: 1,
+        total: 0
+      }
     }
   },
   created () {
@@ -131,11 +145,17 @@ export default {
       this.id = id
     },
     async getCaixa () {
-      await this.$axios.get('/painel/caixa/caixa_supervisores').then((r) => {
-        if (r.data) {
-          this.supervisores = r.data
+      await this.$axios.get(`/painel/caixa/caixa_supervisores?page=${this.pagination.current}`).then((r) => {
+        const supervisores = r.data
+        if (supervisores) {
+          this.supervisores = supervisores.data
+          this.pagination.current = supervisores.current_page
+          this.pagination.total = supervisores.last_page
         }
       })
+    },
+    onPageChange () {
+      this.getCaixa()
     },
     async salvar () {
       this.dialog = false

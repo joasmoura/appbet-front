@@ -31,28 +31,39 @@
       </v-row>
 
       <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Nome</th>
-                  <th class="text-left">Região</th>
-                  <th class="text-left"></th>
-                </tr>
-              </thead>
+        <template v-slot:default>
+          <thead>
+            <tr>
+              <th class="text-left">Nome</th>
+              <th class="text-left">Região</th>
+              <th class="text-left"></th>
+            </tr>
+          </thead>
 
-              <tbody>
-                <tr v-for="supervisor in supervisores" :key="supervisor.id">
-                  <td>{{supervisor.name}}</td>
-                  <td>{{supervisor.regiao.nome}}</td>
-                  <td>
-                    <v-btn :to="`/painel/supervisores/${supervisor.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
-                  </td>
-                </tr>
-              </tbody>
+          <tbody>
+            <tr v-for="supervisor in supervisores" :key="supervisor.id">
+              <td>{{supervisor.name}}</td>
+              <td>{{supervisor.regiao.nome}}</td>
+              <td>
+                <v-btn :to="`/painel/supervisores/${supervisor.id}`"><v-icon>mdi-square-edit-outline</v-icon></v-btn>
+              </td>
+            </tr>
+          </tbody>
 
-            </template>
-          </v-simple-table>
+        </template>
+      </v-simple-table>
     </v-card-text>
+
+    <v-card-actions>
+      <div class="text-center">
+        <v-pagination
+          v-model="pagination.current"
+          :length="pagination.total"
+          total-visible="10"
+          @input="onPageChange"
+        ></v-pagination>
+      </div>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -65,18 +76,28 @@ export default {
     supervisores: [],
 
     status: '',
-    regiao: ''
+    regiao: '',
+    pagination: {
+      current: 1,
+      total: 0
+    }
   }),
   created () {
     this.getSupervisores()
   },
   methods: {
     getSupervisores () {
-      this.$axios.get('/painel/usuarios/supervisores').then((r) => {
-        if (r.data) {
-          this.supervisores = r.data
+      this.$axios.get(`/painel/usuarios/supervisores?page=${this.pagination.current}`).then((r) => {
+        const supervisores = r.data
+        if (supervisores) {
+          this.supervisores = supervisores.data
+          this.pagination.current = supervisores.current_page
+          this.pagination.total = supervisores.last_page
         }
       })
+    },
+    onPageChange () {
+      this.getSupervisores()
     }
   }
 }

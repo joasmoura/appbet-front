@@ -14,39 +14,39 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="nome" prepend-icon="mdi-tag" label="Nome" />
+            <v-text-field v-model="nome" solo prepend-icon="mdi-tag" label="Nome" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="gerente" :items="gerentes" label="Gerente" />
+            <v-combobox v-model="gerente" solo :items="gerentes" label="Gerente" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="supervisor" :items="supervisores" label="Supervisor" />
+            <v-combobox v-model="supervisor" solo :items="supervisores" label="Supervisor" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-combobox v-model="comissao" :items="comissoes" label="Tabela de comissão" />
+            <v-combobox v-model="comissao" solo :items="comissoes" label="Tabela de comissão" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="telefone" prepend-icon="mdi-phone" label="Telefone" />
+            <v-text-field v-model="telefone" solo prepend-icon="mdi-phone" label="Telefone" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="username" prepend-icon="mdi-account" label="Login" />
+            <v-text-field v-model="username" solo prepend-icon="mdi-account" label="Login" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="password" type="password" prepend-icon="mdi-key" label="Senha" />
+            <v-text-field v-model="password" solo type="password" prepend-icon="mdi-key" label="Senha" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="limite_credito" prepend-icon="mdi-cash" label="Limite de crédito" />
+            <v-text-field v-model="limite_credito" solo prepend-icon="mdi-cash" label="Limite de crédito" />
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field v-model="percentual_premio" label="Percentual do prêmio" />
+            <v-text-field v-model="percentual_premio" solo label="Percentual do prêmio" />
           </v-col>
 
           <v-col cols="12" sm="12" md="12">
@@ -56,6 +56,7 @@
               <v-checkbox
                 v-for="regiao in regioes"
                 :key="regiao.id"
+                solo
                 v-model="regiaoSelecionada"
                 :label="regiao.nome"
                 color="success"

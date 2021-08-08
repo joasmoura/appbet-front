@@ -14,19 +14,19 @@
       <v-card-text>
         <v-row>
           <v-col cols="12" sm="6" md="6">
-            <v-text-field prepend-icon="mdi-tag" v-model="nome" label="Nome"></v-text-field>
+            <v-text-field prepend-icon="mdi-tag" solo v-model="nome" label="Nome"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-combobox v-model="gerente" :items="gerentes" label="Gerente"></v-combobox>
+            <v-combobox v-model="gerente" solo :items="gerentes" label="Gerente"></v-combobox>
           </v-col>
 
           <v-col cols="12" sm="6" md="2">
-            <v-combobox v-model="regiao" :items="regioes" label="Região"></v-combobox>
+            <v-combobox v-model="regiao" solo :items="regioes" label="Região"></v-combobox>
           </v-col>
 
           <v-col cols="12" sm="6" md="4">
-            <v-text-field  v-model="limite_credito" prepend-icon="mdi-cash" label="Limite de crédito"></v-text-field>
+            <v-text-field  v-model="limite_credito" solo prepend-icon="mdi-cash" label="Limite de crédito"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="12">
@@ -35,15 +35,15 @@
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-text-field  v-model="username" prepend-icon="mdi-account" label="Login"></v-text-field>
+            <v-text-field  v-model="username" solo prepend-icon="mdi-account" label="Login"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-text-field type="password" v-model="password" prepend-icon="mdi-key" label="Senha"></v-text-field>
+            <v-text-field type="password" solo v-model="password" prepend-icon="mdi-key" label="Senha"></v-text-field>
           </v-col>
 
           <v-col cols="12" sm="6" md="6">
-            <v-text-field  v-model="email" prepend-icon="mdi-email" label="Email"></v-text-field>
+            <v-text-field  v-model="email" solo prepend-icon="mdi-email" label="Email"></v-text-field>
           </v-col>
         </v-row>
 
