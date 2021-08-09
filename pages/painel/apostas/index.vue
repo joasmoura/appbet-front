@@ -59,16 +59,18 @@
 
               <tbody>
                 <template v-for="aposta in apostas">
-                  <tr :key="aposta.id">
+                  <tr :key="aposta.id" :class="(aposta.status == 'cancelado' ? 'red white--text' : '')">
                     <td>{{aposta.codigo}}</td>
                     <td>{{aposta.hora}}</td>
                     <td>{{aposta.cambista.name}}</td>
                     <td>{{aposta.extracao.data}} {{aposta.horario.nome}}</td>
                     <td>{{moeda(aposta.total)}}</td>
                     <td>
-                      <v-btn small color="primary red darken-2">
+                      <v-btn v-if="aposta.status != 'cancelado'" @click="cancelar(aposta.id)" small color="primary red darken-2">
                         <v-icon>mdi-cancel</v-icon> Cancelar
                       </v-btn>
+
+                      <span v-else>Cancelada</span>
                     </td>
                   </tr>
 
@@ -76,28 +78,13 @@
                     <tr :key="item.id">
                       <td colspan="6">
                         <v-card class="mt-2 mb-2">
-                          <v-card-text>
+                          <v-card-text :class="(aposta.status == 'cancelado' ? 'red white--text' : '')">
                             <v-row>
-                              <v-col cols="3" sm="2" md="2">
-                                {{moeda(item.subtotal)}}
-                              </v-col>
-
-                              <v-col cols="3" sm="2" md="2">
-                                {{item.premio_de}}º ao {{item.premio_ate}}º
-                              </v-col>
-
-                              <v-col cols="3" sm="2" md="2">
-                                {{getModalidade(item.modalidade )}}
-                              </v-col>
-
-                              <v-col cols="3" sm="2" md="2">
-                                {{moeda(item.poss_ganho)}}
-                              </v-col>
-
-                              <v-col cols="12">
-                                {{renderNumero(item.numero)}}
-                              </v-col>
-
+                              <v-col cols="3" sm="2" md="2">{{moeda(item.subtotal)}}</v-col>
+                              <v-col cols="3" sm="2" md="2">{{item.premio_de}}º ao {{item.premio_ate}}º</v-col>
+                              <v-col cols="3" sm="2" md="2">{{getModalidade(item.modalidade )}}</v-col>
+                              <v-col cols="3" sm="2" md="2">{{moeda(item.poss_ganho)}}</v-col>
+                              <v-col cols="12">{{renderNumero(item.numero)}}</v-col>
                             </v-row>
                           </v-card-text>
                         </v-card>
@@ -126,6 +113,8 @@
 </template>
 
 <script>
+import Swall from 'sweetalert2'
+
 export default {
   layout: 'painel',
   data: () => ({
@@ -167,7 +156,6 @@ export default {
       { id: 17, nome: 'Grupo Combinado' },
       { id: 18, nome: 'Passe Vai Vem' },
       { id: 19, nome: 'Passe Vai' }
-
     ],
 
     cambista: '',
@@ -204,14 +192,34 @@ export default {
       let novoNumero = ''
       numero.map((num, i) => {
         novoNumero += ' ' + num
-
         return novoNumero
       })
-
       return novoNumero
     },
     onPageChange () {
       this.getApostas()
+    },
+    cancelar (id) {
+      Swall.fire({
+        title: '',
+        text: 'Deseja realmente cancelar essa aposta?',
+        showCancelButton: true,
+        icon: 'question'
+      }).then((c) => {
+        if (c.isConfirmed) {
+          this.$axios.get(`/painel/apostas/cancelar_aposta/${id}`).then((r) => {
+            if (r.status) {
+              Swall.fire({
+                title: 'Aposta Cancelada!',
+                timer: 1000,
+                icon: 'success'
+              })
+            }
+
+            this.getApostas()
+          })
+        }
+      })
     }
   }
 }
