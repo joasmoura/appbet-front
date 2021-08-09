@@ -57,7 +57,14 @@
     </v-card-text>
 
     <v-card-actions>
-
+      <div class="text-center">
+        <v-pagination
+          v-model="pagination.current"
+          :length="pagination.total"
+          total-visible="10"
+          @input="onPageChange"
+        ></v-pagination>
+      </div>
     </v-card-actions>
   </v-card>
 </template>
@@ -66,7 +73,12 @@
 export default {
   layout: 'painel',
   data: () => ({
-    extracoes: []
+    extracoes: [],
+
+    pagination: {
+      current: 1,
+      total: 0
+    }
   }),
   created () {
     this.getExtracoes()
@@ -79,11 +91,17 @@ export default {
       this.$router.push(`/painel/extracao/resultado/${id}`)
     },
     getExtracoes () {
-      this.$axios.get('/painel/extracoes').then((r) => {
-        if (r.data) {
-          this.extracoes = r.data
+      this.$axios.get(`/painel/extracoes?page=${this.pagination.current}`).then((r) => {
+        const extracoes = r.data
+        if (extracoes) {
+          this.extracoes = extracoes.data
+          this.pagination.current = extracoes.current_page
+          this.pagination.total = extracoes.last_page
         }
       })
+    },
+    onPageChange () {
+      this.getExtracoes()
     },
     montarSelect (hora) {
       let novaHora = []
