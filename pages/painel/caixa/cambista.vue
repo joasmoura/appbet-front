@@ -35,7 +35,7 @@
               <td>{{cambista.name}}</td>
               <td></td>
               <td>{{moeda(cambista.entradas)}}</td>
-              <td></td>
+              <td>{{moeda(cambista.saidas)}}</td>
               <td>{{moeda(cambista.creditos)}}</td>
               <td></td>
               <td>{{moeda(cambista.retiradas)}}</td>

@@ -33,7 +33,7 @@
               <td>{{gerente.name}}</td>
               <td></td>
               <td>{{moeda(gerente.entradas)}}</td>
-              <td></td>
+              <td>{{moeda(gerente.saidas)}}</td>
               <td>{{moeda(gerente.creditos)}}</td>
               <td>{{moeda(gerente.retiradas)}}</td>
               <td></td>

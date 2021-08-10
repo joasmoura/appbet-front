@@ -145,7 +145,7 @@ export default {
       })
     },
     async getRegioes () {
-      await this.$axios.get('/painel/regioes').then((r) => {
+      await this.$axios.get('/painel/regioes/select').then((r) => {
         if (r.data) {
           const regioes = r.data
           this.regioes = regioes.map((reg) => {

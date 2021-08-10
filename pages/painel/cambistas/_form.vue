@@ -167,7 +167,7 @@ export default {
       })
     },
     async getRegioes () {
-      await this.$axios.get('/painel/regioes').then((r) => {
+      await this.$axios.get('/painel/regioes/select').then((r) => {
         const regioes = r.data
         if (regioes) {
           this.regioes = regioes
@@ -175,7 +175,7 @@ export default {
       })
     },
     async getGerentes () {
-      await this.$axios.get('/painel/usuarios/gerentes').then((r) => {
+      await this.$axios.get('/painel/usuarios/gerentes_select').then((r) => {
         const gerentes = r.data
         if (gerentes) {
           this.gerentes = gerentes.map((reg) => {
@@ -188,7 +188,7 @@ export default {
       })
     },
     async getSupervisores () {
-      await this.$axios.get('/painel/usuarios/supervisores').then((r) => {
+      await this.$axios.get('/painel/usuarios/supervisores_select').then((r) => {
         const supervisores = r.data
         if (supervisores) {
           this.supervisores = supervisores.map((reg) => {
@@ -201,7 +201,7 @@ export default {
       })
     },
     async getComissoes () {
-      await this.$axios.get('/painel/comissoes').then((r) => {
+      await this.$axios.get('/painel/comissoes/select').then((r) => {
         const comissoes = r.data
         if (comissoes) {
           this.comissoes = comissoes.map((reg) => {

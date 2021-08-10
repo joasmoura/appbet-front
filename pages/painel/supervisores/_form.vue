@@ -112,7 +112,7 @@ export default {
       })
     },
     async getRegioes () {
-      await this.$axios.get('/painel/regioes').then((r) => {
+      await this.$axios.get('/painel/regioes/select').then((r) => {
         if (r.data) {
           const regioes = r.data
           this.regioes = regioes.map((reg) => {
@@ -125,7 +125,7 @@ export default {
       })
     },
     async getGerentes () {
-      await this.$axios.get('/painel/usuarios/gerentes').then((r) => {
+      await this.$axios.get('/painel/usuarios/gerentes_select').then((r) => {
         if (r.data) {
           const gerentes = r.data
           this.gerentes = gerentes.map((reg) => {
