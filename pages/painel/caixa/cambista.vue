@@ -23,7 +23,6 @@
               <th class="text-left">Entradas</th>
               <th class="text-left">Saídas</th>
               <th class="text-left">Créditos</th>
-              <th class="text-left">Comissão cambista</th>
               <th class="text-left">Débitos</th>
               <th class="text-left">Saldo</th>
               <th class="text-left">Ação</th>
@@ -37,7 +36,6 @@
               <td>{{moeda(cambista.entradas)}}</td>
               <td>{{moeda(cambista.saidas)}}</td>
               <td>{{moeda(cambista.creditos)}}</td>
-              <td></td>
               <td>{{moeda(cambista.retiradas)}}</td>
               <td></td>
               <td>

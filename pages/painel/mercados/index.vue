@@ -221,28 +221,6 @@
                     </td>
                   </tr>
 
-                  <tr>
-                    <td>Passe Vai Vem</td>
-                    <td>
-                      <v-row>
-                        <v-col md="3">
-                          <v-text-field v-model="mercado.passe_vai_vem" label="" solo></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>Passe Vai</td>
-                    <td>
-                      <v-row>
-                        <v-col md="3">
-                          <v-text-field v-model="mercado.passe_vai" label="" solo></v-text-field>
-                        </v-col>
-                      </v-row>
-                    </td>
-                  </tr>
-
                 </tbody>
 
               </template>
@@ -286,8 +264,6 @@ export default {
       passe_seco: '',
       terno_dezena_cercado: '',
       grupo_combinado: '',
-      passe_vai_vem: '',
-      passe_vai: ''
     },
 
     regiao: ''
@@ -331,8 +307,6 @@ export default {
         this.mercado.passe_seco = (mercado ? mercado.passe_seco : '')
         this.mercado.terno_dezena_cercado = (mercado ? mercado.terno_dezena_cercado : '')
         this.mercado.grupo_combinado = (mercado ? mercado.grupo_combinado : '')
-        this.mercado.passe_vai_vem = (mercado ? mercado.passe_vai_vem : '')
-        this.mercado.passe_vai = (mercado ? mercado.passe_vai : '')
       })
     },
     salvar () {
@@ -352,9 +326,7 @@ export default {
           this.mercado.terno_grupo_combinado.length > 0 &&
           this.mercado.passe_seco.length > 0 &&
           this.mercado.terno_dezena_cercado.length > 0 &&
-          this.mercado.grupo_combinado.length > 0 &&
-          this.mercado.passe_vai_vem.length > 0 &&
-          this.mercado.passe_vai.length > 0
+          this.mercado.grupo_combinado.length > 0
         ) {
           if (this.mercado.regiao_id) {
             this.atualizar()
