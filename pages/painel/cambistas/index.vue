@@ -50,7 +50,7 @@
                   <tr v-for="cambista in cambistas" :key="cambista.id">
                     <td>{{cambista.name}}</td>
                     <td>{{(cambista.gerente ? cambista.gerente.name : '')}}</td>
-                    <td>{{cambista.comissao.nome}}</td>
+                    <td>{{(cambista.comissao ? cambista.comissao.nome : '')}}</td>
                     <td>{{cambista.username}}</td>
                     <td>{{cambista.telefone}}</td>
                     <td>
