@@ -108,17 +108,16 @@ export default {
         premio_5: this.premio_5,
         premio_6: this.premio_6,
         premio_7: this.premio_7
-      }).then(
-        (r) => {
-          if (r.data.status) {
-            // this.$router.push('/painel/extracao')
-            Swall.fire({
-              icon: 'success',
-              title: 'Premios salvos com sucesso'
-            })
-          }
+      }).then((r) => {
+        console.log(r.data)
+        if (r.data.status) {
+          // this.$router.push('/painel/extracao')
+          Swall.fire({
+            icon: 'success',
+            title: 'Premios salvos com sucesso'
+          })
         }
-      )
+      })
     }
   }
 }
