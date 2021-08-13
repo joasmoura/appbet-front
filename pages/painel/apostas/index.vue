@@ -59,7 +59,14 @@
 
               <tbody>
                 <template v-for="aposta in apostas">
-                  <tr :key="aposta.id" :class="(aposta.status == 'cancelado' ? 'red white--text' : '')">
+                  <tr
+                    :key="aposta.id"
+                    :class="
+                    (aposta.status == 'cancelado' ? 'red white--text' : '')+
+                    (aposta.status == 'ganhou' ? 'green white--text' : '')+
+                    (aposta.status == 'perdeu' ? 'red white--text' : '')
+                    "
+                  >
                     <td>{{aposta.codigo}}</td>
                     <td>{{aposta.hora}}</td>
                     <td>{{aposta.cambista.name}}</td>
@@ -78,7 +85,7 @@
                     <tr :key="item.id">
                       <td colspan="6">
                         <v-card class="mt-2 mb-2">
-                          <v-card-text :class="(aposta.status == 'cancelado' ? 'red white--text' : '')">
+                          <v-card-text :class=" (aposta.status == 'cancelado' ? 'red white--text' : '')">
                             <v-row>
                               <v-col cols="3" sm="2" md="2">{{moeda(item.subtotal)}}</v-col>
                               <v-col cols="3" sm="2" md="2">{{item.premio_de}}º ao {{item.premio_ate}}º</v-col>

@@ -39,7 +39,8 @@ export default {
       login: {
         username: '',
         password: ''
-      }
+      },
+      loading: ''
     }
   },
   methods: {
