@@ -40,20 +40,22 @@ export default {
         username: '',
         password: ''
       },
-      loading: ''
+      loading: false
     }
   },
   methods: {
-    efetuarLogin () {
-      this.$auth.loginWith('local', {
+    async efetuarLogin () {
+      this.loading = true
+      await this.$auth.loginWith('local', {
         data: this.login
-      }).then(
-        () => {
-          console.log('Sucesso')
-        }
+      }).then(() => {
+        this.loading = false
+        console.log('Sucesso')
+      }
       ).catch((erro) => {
         console.log('Erro')
         console.log(erro)
+        this.loading = false
       })
     }
   }
