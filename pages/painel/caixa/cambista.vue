@@ -1,22 +1,16 @@
 <template>
 <div>
   <v-card>
-    <v-card-title>
-      Caixa cambista
-
+    <v-app-bar>
+      <v-toolbar-title>Caixa cambista</v-toolbar-title>
       <v-spacer />
 
-      <date-picker
-        v-model="dataInicio"
-        value-type="DD/MM/YYYY"
-        format="DD/MM/YYYY"
-        :lang="lang"
-        placeholder="DE"
-      />
-      {{dataInicio}}
-      <date-picker v-model="dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ" />
-      <v-btn small @click="filtrar"><v-icon>mdi-magnify</v-icon></v-btn>
-    </v-card-title>
+      <div>
+        <date-picker v-model="datas.dataInicio" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="DE"></date-picker>
+        <date-picker v-model="datas.dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ"></date-picker>
+        <v-btn small @click="filtrar"><v-icon>mdi-magnify</v-icon></v-btn>
+      </div>
+    </v-app-bar>
 
     <v-card-text>
       <v-row>
@@ -41,21 +35,22 @@
           </thead>
 
           <tbody>
-            <tr v-for="cambista in cambistas" :key="cambista.id">
-              <td>{{cambista.name}}</td>
-              <td></td>
-              <td>{{moeda(cambista.entradas)}}</td>
-              <td>{{moeda(cambista.saidas)}}</td>
-              <td>{{moeda(cambista.creditos)}}</td>
-              <td>{{moeda(cambista.retiradas)}}</td>
-              <td></td>
-              <td>
-                <v-btn color="primary" small @click="() => creditar(cambista.id)">Creditar</v-btn>
-                <v-btn color="primary red" small @click="() => debitar(cambista.id)">Debitar</v-btn>
-              </td>
-            </tr>
+            <template v-for="cambista in cambistas">
+              <tr  :key="cambista.id">
+                <td>{{cambista.name}}</td>
+                <td>{{moeda(cambista.saldoAnterior)}}</td>
+                <td>{{moeda(cambista.entradas)}}</td>
+                <td>{{moeda(cambista.saidas)}}</td>
+                <td>{{moeda(cambista.creditos)}}</td>
+                <td>{{moeda(cambista.retiradas)}}</td>
+                <td>{{moeda(cambista.saldo)}}</td>
+                <td>
+                  <v-btn color="primary" small @click="() => creditar(cambista.id)">Creditar</v-btn>
+                  <v-btn color="primary red" small @click="() => debitar(cambista.id)">Debitar</v-btn>
+                </td>
+              </tr>
+            </template>
           </tbody>
-
         </template>
       </v-simple-table>
     </v-card-text>
@@ -123,8 +118,10 @@ export default {
       dialog: false,
       descricao: '',
       valor: '',
-      dataInicio: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
-      dataFim: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + new Date().getMonth() + 1 + '/' + new Date().getFullYear(),
+      datas: {
+        dataInicio: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
+        dataFim: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
+      },
       data: new Date(),
       lang: {
         formatLocale: {
@@ -158,10 +155,11 @@ export default {
       this.id = id
     },
     filtrar () {
-
+      this.pagination.current = 1
+      this.getCaixa()
     },
     async getCaixa () {
-      await this.$axios.get(`/painel/caixa/caixa_cambistas?page=${this.pagination.current}`).then((r) => {
+      await this.$axios.get(`/painel/caixa/caixa_cambistas?page=${this.pagination.current}&dataInicio=${this.datas.dataInicio}&dataFim=${this.datas.dataFim}`).then((r) => {
         const cambistas = r.data
         if (cambistas) {
           this.cambistas = cambistas.data
