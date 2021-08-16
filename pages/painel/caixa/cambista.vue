@@ -6,7 +6,18 @@
 
       <v-spacer />
 
+      <date-picker
+        v-model="dataInicio"
+        value-type="DD/MM/YYYY"
+        format="DD/MM/YYYY"
+        :lang="lang"
+        placeholder="DE"
+      />
+      {{dataInicio}}
+      <date-picker v-model="dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ" />
+      <v-btn small @click="filtrar"><v-icon>mdi-magnify</v-icon></v-btn>
     </v-card-title>
+
     <v-card-text>
       <v-row>
         <v-col cols="12" sm="6" md="6">
@@ -112,6 +123,8 @@ export default {
       dialog: false,
       descricao: '',
       valor: '',
+      dataInicio: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
+      dataFim: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + new Date().getMonth() + 1 + '/' + new Date().getFullYear(),
       data: new Date(),
       lang: {
         formatLocale: {
@@ -143,6 +156,9 @@ export default {
       this.tipo = 'retirada'
       this.dialog = true
       this.id = id
+    },
+    filtrar () {
+
     },
     async getCaixa () {
       await this.$axios.get(`/painel/caixa/caixa_cambistas?page=${this.pagination.current}`).then((r) => {
