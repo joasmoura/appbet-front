@@ -161,8 +161,7 @@ export default {
       { id: 15, nome: 'Passe Seco' },
       { id: 16, nome: 'Terno de Dezena Cercado' },
       { id: 17, nome: 'Grupo Combinado' },
-      { id: 18, nome: 'Passe Vai Vem' },
-      { id: 19, nome: 'Passe Vai' }
+      { id: 18, nome: 'Queima' }
     ],
 
     cambista: '',
