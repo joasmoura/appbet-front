@@ -13,12 +13,6 @@
     </v-app-bar>
 
     <v-card-text>
-      <v-row>
-        <v-col cols="12" sm="6" md="6">
-
-        </v-col>
-      </v-row>
-
       <v-simple-table>
         <template v-slot:default>
           <thead>

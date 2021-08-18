@@ -281,9 +281,14 @@ export default {
     regiao: ''
   }),
   created () {
+    this.verificaPerfil([])
     this.getRegioes()
   },
   methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
+    },
     async getRegioes () {
       await this.$axios.get('/painel/regioes/select').then((r) => {
         if (r.data) {

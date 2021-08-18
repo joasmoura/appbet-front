@@ -25,13 +25,15 @@
             <v-list-item-title>Loteria</v-list-item-title>
           </template>
 
-          <v-list-item v-for="([title, icon, to], i) in loteria" :key="i" :to="to">
-            <v-list-item-title v-text="title"/>
+          <div v-for="([title, icon, to, permissao], i) in loteria" :key="i" >
+            <v-list-item v-if="permissao" :to="to">
+              <v-list-item-title v-text="title"/>
 
-            <v-list-item-icon>
-              <v-icon v-text="icon"/>
-            </v-list-item-icon>
-          </v-list-item>
+              <v-list-item-icon>
+                <v-icon v-text="icon"/>
+              </v-list-item-icon>
+            </v-list-item>
+          </div>
         </v-list-group>
 
         <v-list-group :value="false" prepend-icon="mdi-account-group-outline" no-action>
@@ -39,14 +41,15 @@
             <v-list-item-title>Usuários</v-list-item-title>
           </template>
 
-          <v-list-item v-for="([title, icon, to], i) in users" :key="i" :to="to">
-            <v-list-item-title v-text="title"/>
+          <div v-for="([title, icon, to, permissao], i) in users" :key="i">
+            <v-list-item v-if="permissao" :to="to">
+              <v-list-item-title v-text="title"/>
 
-            <v-list-item-icon>
-              <v-icon v-text="icon"/>
-            </v-list-item-icon>
-          </v-list-item>
-
+              <v-list-item-icon>
+                <v-icon v-text="icon"/>
+              </v-list-item-icon>
+            </v-list-item>
+          </div>
         </v-list-group>
 
         <v-list-group :value="false" prepend-icon="mdi-cash-register" no-action>
@@ -54,16 +57,18 @@
             <v-list-item-title>Caixa</v-list-item-title>
           </template>
 
-          <v-list-item v-for="([title, icon, to], i) in caixa" :key="i" :to="to">
-            <v-list-item-title v-text="title"/>
+          <div  v-for="([title, icon, to, permissao], i) in caixa" :key="i">
+            <v-list-item :to="to" v-if="permissao">
+              <v-list-item-title v-text="title"/>
 
-            <v-list-item-icon>
-              <v-icon v-text="icon"/>
-            </v-list-item-icon>
-          </v-list-item>
+              <v-list-item-icon>
+                <v-icon v-text="icon"/>
+              </v-list-item-icon>
+            </v-list-item>
+          </div>
         </v-list-group>
 
-        <v-list-item to="/painel">
+        <v-list-item v-if="this.verificaPerfil([])" to="/painel">
           <v-list-item-action>
             <v-icon>mdi-chart-bar</v-icon>
           </v-list-item-action>
@@ -73,7 +78,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item to="/painel">
+        <v-list-item v-if="this.verificaPerfil([])" to="/painel">
           <v-list-item-action>
             <v-icon>mdi-cogs</v-icon>
           </v-list-item-action>
@@ -126,49 +131,41 @@ export default {
       fixed: false,
       loteria: [
         [
-          'Apostas', 'mdi-ticket', '/painel/apostas/'
+          'Apostas', 'mdi-ticket', '/painel/apostas/', this.verificaPerfil(['gerente'])
         ],
         [
-          'Extrações', 'mdi-calendar-month-outline', '/painel/extracao/'
+          'Extrações', 'mdi-calendar-month-outline', '/painel/extracao/', this.verificaPerfil([])
         ],
         [
-          'Mercados', 'mdi-chart-line', '/painel/mercados/'
+          'Mercados', 'mdi-chart-line', '/painel/mercados/', this.verificaPerfil([])
         ],
         [
-          'Configurações', 'mdi-cog', '/criar'
+          'Configurações', 'mdi-cog', '/criar', this.verificaPerfil([])
         ]
       ],
       users: [
         [
-          'Gerentes', 'mdi-account-star', '/painel/gerentes'
+          'Gerentes', 'mdi-account-star', '/painel/gerentes', this.verificaPerfil([])
         ],
         [
-          'Supervisor', 'mdi-account-settings', '/painel/supervisores'
+          'Supervisor', 'mdi-account-settings', '/painel/supervisores', this.verificaPerfil(['gerente'])
         ],
         [
-          'Cambistas', 'mdi-account-group', '/painel/cambistas/'
+          'Cambistas', 'mdi-account-group', '/painel/cambistas/', this.verificaPerfil(['gerente'])
         ],
         [
-          'Regiões', 'mdi-map-marker', '/painel/regiao'
+          'Regiões', 'mdi-map-marker', '/painel/regiao', this.verificaPerfil([])
         ],
         [
-          'Comissões', 'mdi-cash', '/painel/comissoes'
+          'Comissões', 'mdi-cash', '/painel/comissoes', this.verificaPerfil([])
         ]
       ],
       caixa: [
-        [
-          'Gerente', 'mdi-cash-register', '/painel/caixa/gerentes'
-        ],
-        [
-          'Supervisor', 'mdi-cash-register', '/painel/caixa/supervisor'
-        ],
-        [
-
-          'Cambistas', 'mdi-cash-register', '/painel/caixa/cambista'
-        ],
-        [
-          'Movimentações', 'mdi-cash-register', '/painel/caixa/movimentacoes'
-        ]
+        ['Meu Caixa', 'mdi-cash-register', '/painel/caixa/meu-caixa', this.verificaPerfil(['gerente'])],
+        ['Gerente', 'mdi-cash-register', '/painel/caixa/gerentes', this.verificaPerfil([''])],
+        ['Supervisor', 'mdi-cash-register', '/painel/caixa/supervisor', this.verificaPerfil(['gerente', 'supervisor'])],
+        ['Cambistas', 'mdi-cash-register', '/painel/caixa/cambista', this.verificaPerfil(['gerente', 'supervisor'])],
+        ['Movimentações', 'mdi-cash-register', '/painel/caixa/movimentacoes', this.verificaPerfil(['gerente', 'supervisor'])]
       ],
       miniVariant: false,
       right: true,
@@ -176,8 +173,14 @@ export default {
       title: 'AppBet'
     }
   },
-  methods: {
+  created () {
 
+  },
+  methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil)
+    }
   }
 }
 </script>

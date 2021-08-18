@@ -81,9 +81,14 @@ export default {
     }
   }),
   created () {
+    this.verificaPerfil([])
     this.getExtracoes()
   },
   methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
+    },
     async setaStatus (id) {
       await this.$axios.get(`/painel/extracoes/setar_status/${id}`)
     },

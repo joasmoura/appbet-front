@@ -112,6 +112,7 @@ export default {
     }
   }),
   created () {
+    this.verificaPerfil([])
     this.getRegioes()
 
     const idExtracao = this.$route.params.form
@@ -121,6 +122,10 @@ export default {
     }
   },
   methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
+    },
     async getExtracao () {
       await this.$axios.get(`/painel/extracoes/${this.id}/edit`).then((r) => {
         if (r.data.status) {

@@ -3,10 +3,10 @@
     <v-card-title>Apostas</v-card-title>
     <v-card-text>
       <v-container>
-        <v-form>
+        <v-form @submit.prevent="filtrar">
           <v-row>
             <v-col cols="12" sm="6" md="1">
-              <v-text-field label="Código"></v-text-field>
+              <v-text-field v-model="codigo" label="Código"></v-text-field>
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
@@ -30,15 +30,15 @@
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
-              <v-text-field label="Periodo"></v-text-field>
+              <date-picker v-model="dataInicio" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="DE"></date-picker>
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
-              <v-text-field label="à"></v-text-field>
+              <date-picker v-model="dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ"></date-picker>
             </v-col>
 
             <v-col cols="12" sm="6" md="1">
-              <v-btn ><v-icon>mdi-magnify</v-icon></v-btn>
+              <v-btn type="submit"><v-icon>mdi-magnify</v-icon></v-btn>
             </v-col>
 
           </v-row>
@@ -121,11 +121,16 @@
 
 <script>
 import Swall from 'sweetalert2'
+import 'vue2-datepicker/index.css'
+import 'vue2-datepicker/locale/pt-br'
 
 export default {
   layout: 'painel',
   data: () => ({
     loading: true,
+    codigo: '',
+    dataInicio: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
+    dataFim: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
     cambistas: [
       {
         text: 'Todos', value: ''
@@ -173,14 +178,22 @@ export default {
     }
   }),
   created () {
+    this.verificaPerfil(['gerente', 'supervisor'])
     this.getApostas()
   },
   methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
+    },
     moeda (moeda) {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
+    filtrar () {
+      this.getApostas()
+    },
     async getApostas () {
-      await this.$axios.get(`/painel/apostas?page=${this.pagination.current}`).then((r) => {
+      await this.$axios.get(`/painel/apostas?page=${this.pagination.current}&codigo=${this.codigo}&cambista=${this.cambista}&gerente=${this.gerente}&resultado=${this.resultado}&dataInicio=${this.dataInicio}&dataFim=${this.dataFim}`).then((r) => {
         const apostas = r.data
         if (apostas) {
           this.apostas = apostas.data
@@ -221,7 +234,6 @@ export default {
                 icon: 'success'
               })
             }
-
             this.getApostas()
           })
         }

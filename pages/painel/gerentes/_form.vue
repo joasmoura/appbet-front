@@ -88,6 +88,7 @@ export default {
     email: ''
   }),
   created () {
+    this.verificaPerfil([])
     this.getRegioes()
     const idGerente = this.$route.params.form
     if (idGerente !== 'form') {
@@ -96,6 +97,10 @@ export default {
     }
   },
   methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
+    },
     async getRegioes () {
       await this.$axios.get('/painel/regioes/select').then((r) => {
         if (r.data) {

@@ -128,9 +128,14 @@ export default {
     }
   },
   created () {
+    this.verificaPerfil([''])
     this.getCaixa()
   },
   methods: {
+    verificaPerfil (perfil) {
+      perfil.push('administrador')
+      return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
+    },
     moeda (moeda) {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
