@@ -1,5 +1,13 @@
 <template>
 <div>
+
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-card>
     <v-card-title>Caixa gerentes
 
@@ -108,7 +116,7 @@ export default {
   data () {
     return {
       gerentes: [],
-
+      overlay: false,
       dialog: false,
       descricao: '',
       valor: '',
@@ -150,6 +158,7 @@ export default {
       this.id = id
     },
     async getCaixa () {
+      this.overlay = true
       await this.$axios.get(`/painel/caixa/caixa_gerentes?page=${this.pagination.current}`).then((r) => {
         const gerentes = r.data
         if (gerentes) {
@@ -157,12 +166,14 @@ export default {
           this.pagination.current = gerentes.current_page
           this.pagination.total = gerentes.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {
       this.getCaixa()
     },
     async salvar () {
+      this.overlay = true
       this.dialog = false
       await this.$axios.post('/painel/movimentacao', {
         usuario: this.id,
@@ -182,6 +193,8 @@ export default {
         this.tipo = ''
         this.data = new Date()
         this.valor = ''
+
+        this.overlay = false
       })
     }
   }

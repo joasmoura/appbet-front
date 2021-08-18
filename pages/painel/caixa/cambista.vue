@@ -1,5 +1,12 @@
 <template>
 <div>
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-card>
     <v-app-bar>
       <v-toolbar-title>Caixa cambista</v-toolbar-title>
@@ -108,7 +115,7 @@ export default {
   data () {
     return {
       cambistas: [],
-
+      overlay: false,
       dialog: false,
       descricao: '',
       valor: '',
@@ -153,6 +160,7 @@ export default {
       this.getCaixa()
     },
     async getCaixa () {
+      this.overlay = true
       await this.$axios.get(`/painel/caixa/caixa_cambistas?page=${this.pagination.current}&dataInicio=${this.datas.dataInicio}&dataFim=${this.datas.dataFim}`).then((r) => {
         const cambistas = r.data
         if (cambistas) {
@@ -160,6 +168,7 @@ export default {
           this.pagination.current = cambistas.current_page
           this.pagination.total = cambistas.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

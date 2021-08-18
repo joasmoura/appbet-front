@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-card>
     <v-card-title>Apostas</v-card-title>
     <v-card-text>
@@ -117,6 +125,7 @@
       </div>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
@@ -193,6 +202,7 @@ export default {
       this.getApostas()
     },
     async getApostas () {
+      this.overlay = true
       await this.$axios.get(`/painel/apostas?page=${this.pagination.current}&codigo=${this.codigo}&cambista=${this.cambista}&gerente=${this.gerente}&resultado=${this.resultado}&dataInicio=${this.dataInicio}&dataFim=${this.dataFim}`).then((r) => {
         const apostas = r.data
         if (apostas) {
@@ -200,6 +210,7 @@ export default {
           this.pagination.current = apostas.current_page
           this.pagination.total = apostas.last_page
         }
+        this.overlay = false
       })
     },
     getModalidade (id) {

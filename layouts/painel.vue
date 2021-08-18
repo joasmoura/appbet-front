@@ -20,7 +20,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-group :value="false" prepend-icon="mdi-ticket" no-action>
+        <v-list-group v-if="this.verificaPerfil(['gerente','supervisor'])" :value="false" prepend-icon="mdi-ticket" no-action>
           <template v-slot:activator>
             <v-list-item-title>Loteria</v-list-item-title>
           </template>
@@ -131,7 +131,7 @@ export default {
       fixed: false,
       loteria: [
         [
-          'Apostas', 'mdi-ticket', '/painel/apostas/', this.verificaPerfil(['gerente'])
+          'Apostas', 'mdi-ticket', '/painel/apostas/', this.verificaPerfil(['gerente', 'supervisor'])
         ],
         [
           'Extrações', 'mdi-calendar-month-outline', '/painel/extracao/', this.verificaPerfil([])

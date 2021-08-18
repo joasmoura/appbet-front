@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
@@ -86,6 +94,7 @@
       </v-card-actions>
     </v-card>
   </v-form>
+</div>
 </template>
 
 <script>
@@ -96,6 +105,7 @@ import 'vue2-datepicker/locale/pt-br'
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     regioes: [],
     horarios: [],
 
@@ -127,6 +137,7 @@ export default {
       return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
     },
     async getExtracao () {
+      this.overlay = true
       await this.$axios.get(`/painel/extracoes/${this.id}/edit`).then((r) => {
         if (r.data.status) {
           const extracao = r.data.extracao
@@ -146,6 +157,7 @@ export default {
               }
             })
           }
+          this.overlay = false
         }
       })
     },
@@ -198,6 +210,7 @@ export default {
     },
     criar () {
       if (this.data.length && this.horarios.length) {
+        this.overlay = true
         this.$axios.post('/painel/extracoes', {
           data: this.data,
           horarios: this.horarios
@@ -210,6 +223,7 @@ export default {
                 title: 'Extração cadastrada com sucesso'
               })
             }
+            this.overlay = false
           }
         )
       } else {
@@ -221,6 +235,7 @@ export default {
     },
     atualizar () {
       const data = this.data
+      this.overlay = true
       this.$axios.put(`/painel/extracoes/${this.id}`, {
         data,
         horarios: this.horarios
@@ -237,6 +252,7 @@ export default {
               title: 'Não foi possível atualizar'
             })
           }
+          this.overlay = false
         }
       )
     }

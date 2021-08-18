@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
@@ -248,6 +256,7 @@
       </v-card-actions>
     </v-card>
   </v-form>
+</div>
 </template>
 
 <script>
@@ -255,6 +264,7 @@ import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     regioes: [],
     mercado: {
       regiao_id: '',
@@ -303,6 +313,7 @@ export default {
       })
     },
     async selecionaRegiao () {
+      this.overlay = true
       await this.$axios.get(`/painel/mercados/${this.regiao.value}/edit`).then((r) => {
         const mercado = r.data
 
@@ -325,6 +336,8 @@ export default {
         this.mercado.terno_dezena_cercado = (mercado ? mercado.terno_dezena_cercado : '')
         this.mercado.grupo_combinado = (mercado ? mercado.grupo_combinado : '')
         this.mercado.queima = (mercado ? mercado.queima : '')
+
+        this.overlay = false
       })
     },
     salvar () {
@@ -368,6 +381,7 @@ export default {
       }
     },
     criar () {
+      this.overlay = true
       this.$axios.post('/painel/mercados', {
         regiao: this.regiao.value,
         mercado: this.mercado
@@ -380,10 +394,12 @@ export default {
             })
             this.selecionaRegiao()
           }
+          this.overlay = false
         }
       )
     },
     atualizar () {
+      this.overlay = true
       this.$axios.put(`/painel/mercados/${this.mercado.regiao_id}`, {
         mercado: this.mercado
       }).then(
@@ -399,6 +415,7 @@ export default {
               title: 'Não foi possível atualizar'
             })
           }
+          this.overlay = false
         }
       )
     }

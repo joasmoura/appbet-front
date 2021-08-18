@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
@@ -56,12 +64,14 @@
       </v-card-actions>
     </v-card>
   </v-form>
+</div>
 </template>
 <script>
 import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     regioes: [],
     gerentes: [],
 
@@ -146,6 +156,7 @@ export default {
       }
     },
     criar () {
+      this.overlay = true
       this.$axios.post('/painel/usuarios', {
         nome: this.nome,
         perfil: this.perfil,
@@ -164,10 +175,12 @@ export default {
               title: 'Sepervisor cadastrado com sucesso'
             })
           }
+          this.overlay = false
         }
       )
     },
     atualizar () {
+      this.overlay = true
       this.$axios.put(`/painel/usuarios/${this.id}`, {
         nome: this.nome,
         gerente_id: this.gerente.value,
@@ -190,6 +203,7 @@ export default {
               title: 'Não foi possível atualizar'
             })
           }
+          this.overlay = false
         }
       )
     }

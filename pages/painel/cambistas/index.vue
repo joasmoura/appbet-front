@@ -1,5 +1,12 @@
 <template>
   <v-form @submit.prevent="salvar">
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
     <v-card>
       <v-card-title>Cambistas
 
@@ -92,13 +99,15 @@ export default {
     pagination: {
       current: 1,
       total: 0
-    }
+    },
+    overlay: false
   }),
   created () {
     this.getCambistas()
   },
   methods: {
     getCambistas () {
+      this.overlay = true
       this.$axios.get(`/painel/usuarios/cambistas?page=${this.pagination.current}`).then((r) => {
         const cambistas = r.data
         if (cambistas) {
@@ -106,6 +115,7 @@ export default {
           this.pagination.current = cambistas.current_page
           this.pagination.total = cambistas.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

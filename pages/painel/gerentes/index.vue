@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-card>
     <v-card-title>Gerentes
 
@@ -63,6 +71,7 @@
       </div>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
@@ -72,7 +81,7 @@ export default {
     lista_status: [],
     regioes: [],
     gerentes: [],
-
+    overlay: false,
     status: '',
     regiao: '',
     pagination: {
@@ -93,6 +102,7 @@ export default {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
     getGerentes () {
+      this.overlay = true
       this.$axios.get(`/painel/usuarios/gerentes?page=${this.pagination.current}`).then((r) => {
         const gerentes = r.data
         if (gerentes) {
@@ -100,6 +110,7 @@ export default {
           this.pagination.current = gerentes.current_page
           this.pagination.total = gerentes.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

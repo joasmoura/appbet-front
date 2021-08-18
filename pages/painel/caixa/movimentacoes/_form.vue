@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
@@ -47,6 +55,7 @@
       </v-card-actions>
     </v-card>
   </v-form>
+</div>
 </template>
 
 <script>
@@ -57,6 +66,7 @@ import 'vue2-datepicker/locale/pt-br'
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     cambistas: [],
     tipos: [
       { value: '1', text: 'Crédito' },
@@ -95,6 +105,7 @@ export default {
       }
     },
     async criar () {
+      this.overlay = true
       await this.$axios.post('/painel/movimentacao', {
         cambista: this.cambista.value,
         descricao: this.descricao,
@@ -107,10 +118,12 @@ export default {
           title: 'Movimentação cadastrada com sucesso!'
         })
 
+        this.overlay = false
         this.$router.push('/painel/caixa/movimentacoes')
       })
     },
     async atualizar () {
+      this.overlay = true
       await this.$axios.put(`/painel/movimentacao/${this.id}`, {
         cambista: this.cambista.value,
         descricao: this.descricao,
@@ -122,9 +135,12 @@ export default {
           icon: 'success',
           title: 'Movimentação atualizada com sucesso!'
         })
+
+        this.overlay = false
       })
     },
     async getMovimentacao () {
+      this.overlay = true
       await this.$axios.get(`/painel/movimentacao/${this.id}/edit`).then((r) => {
         const movimentacao = r.data
         if (movimentacao) {
@@ -140,6 +156,7 @@ export default {
             text: movimentacao.cambista.name
           }
         }
+        this.overlay = false
       })
     },
     async getCambistas () {

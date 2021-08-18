@@ -1,5 +1,12 @@
 <template>
 <div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-card>
     <v-app-bar>
       <v-toolbar-title>Caixa</v-toolbar-title>
@@ -109,6 +116,7 @@ export default {
   layout: 'painel',
   data () {
     return {
+      overlay: false,
       saldoAnterior: 0,
       valorDebitos: 0,
       valorCreditos: 0,
@@ -142,6 +150,7 @@ export default {
       this.getCaixa()
     },
     async getCaixa () {
+      this.overlay = true
       await this.$axios.get(`/painel/caixa/gerente/meu-caixa?dataInicio=${this.datas.dataInicio}&dataFim=${this.datas.dataFim}`).then((r) => {
         if (r.data) {
           this.saldoAnterior = r.data.saldoAnterior
@@ -158,6 +167,7 @@ export default {
           this.comissaoLucro = r.data.comissaoLucro
           this.saldo = r.data.saldo
         }
+        this.overlay = false
       })
     },
     moeda (moeda) {

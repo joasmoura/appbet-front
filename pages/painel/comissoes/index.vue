@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-card>
     <v-card-title>
       Comissões
@@ -44,12 +52,14 @@
       </div>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     comissoes: [],
 
     pagination: {
@@ -62,6 +72,7 @@ export default {
   },
   methods: {
     async getComissoes () {
+      this.overlay = true
       await this.$axios.get(`/painel/comissoes?page=${this.pagination.current}`).then((r) => {
         const comissoes = r.data
         if (comissoes) {
@@ -69,6 +80,7 @@ export default {
           this.pagination.current = comissoes.current_page
           this.pagination.total = comissoes.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

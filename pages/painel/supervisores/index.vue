@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-card>
     <v-card-title>Supervisores
 
@@ -65,12 +73,14 @@
       </div>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     lista_status: [],
     regioes: [],
     supervisores: [],
@@ -86,14 +96,16 @@ export default {
     this.getSupervisores()
   },
   methods: {
-    getSupervisores () {
-      this.$axios.get(`/painel/usuarios/supervisores?page=${this.pagination.current}`).then((r) => {
+    async getSupervisores () {
+      this.overlay = true
+      await this.$axios.get(`/painel/usuarios/supervisores?page=${this.pagination.current}`).then((r) => {
         const supervisores = r.data
         if (supervisores) {
           this.supervisores = supervisores.data
           this.pagination.current = supervisores.current_page
           this.pagination.total = supervisores.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

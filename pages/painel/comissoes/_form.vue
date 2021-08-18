@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
@@ -39,6 +47,7 @@
       </v-card-actions>
     </v-card>
   </v-form>
+</div>
 </template>
 
 <script>
@@ -46,6 +55,7 @@ import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     regioes: [],
 
     id: '',
@@ -64,6 +74,7 @@ export default {
   },
   methods: {
     async getComissao () {
+      this.overlay = true
       await this.$axios.get(`/painel/comissoes/${this.id}/edit`).then((r) => {
         if (r.data.status) {
           const comissao = r.data.comissao
@@ -71,7 +82,7 @@ export default {
           this.nome = comissao.nome
 
           const regiao = this.regioes.find(re => parseInt(re.value) === parseInt(comissao.regiao_id))
-          if(regiao){
+          if (regiao) {
             this.regiao = {
               value: regiao.value,
               text: regiao.text
@@ -79,6 +90,7 @@ export default {
           }
           this.valor = comissao.valor
         }
+        this.overlay = false
       })
     },
     async getRegioes () {
@@ -103,6 +115,7 @@ export default {
     },
 
     criar () {
+      this.overlay = true
       this.$axios.post('/painel/comissoes', {
         nome: this.nome,
         regiao: (this.regiao ? this.regiao.value : null),
@@ -116,10 +129,12 @@ export default {
               title: 'Comissão cadastrada com sucesso'
             })
           }
+          this.overlay = false
         }
       )
     },
     atualizar () {
+      this.overlay = true
       this.$axios.put(`/painel/comissoes/${this.id}`, {
         nome: this.nome,
         regiao: (this.regiao ? this.regiao.value : null),
@@ -137,6 +152,7 @@ export default {
               title: 'Não foi possível atualizar'
             })
           }
+          this.overlay = false
         }
       )
     }

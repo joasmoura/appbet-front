@@ -1,4 +1,12 @@
 <template>
+<div>
+  <v-overlay :value="overlay">
+    <v-progress-circular
+      indeterminate
+      size="64"
+    ></v-progress-circular>
+  </v-overlay>
+
   <v-card>
     <v-card-title>
       Movimentações Financeiras
@@ -88,12 +96,14 @@
       </div>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     beneficiarios: [
       { value: '1', text: 'Cambista' },
       { value: '2', text: 'Gerente' },
@@ -124,6 +134,7 @@ export default {
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(moeda)
     },
     async getMovimentacoes () {
+      this.overlay = true
       await this.$axios.get(`/painel/movimentacao?page=${this.pagination.current}`).then((r) => {
         const movimentacoes = r.data
         if (movimentacoes) {
@@ -131,6 +142,7 @@ export default {
           this.pagination.current = movimentacoes.current_page
           this.pagination.total = movimentacoes.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

@@ -1,4 +1,13 @@
 <template>
+<div>
+
+  <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   <v-card>
     <v-card-title>
       Regiões
@@ -46,12 +55,14 @@
       </div>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     regioes: [],
     pagination: {
       current: 1,
@@ -63,6 +74,7 @@ export default {
   },
   methods: {
     async getRegioes () {
+      this.overlay = true
       await this.$axios.get(`/painel/regioes?page=${this.pagination.current}`).then((r) => {
         const regioes = r.data
         if (regioes) {
@@ -70,6 +82,7 @@ export default {
           this.pagination.current = regioes.current_page
           this.pagination.total = regioes.last_page
         }
+        this.overlay = false
       })
     },
     onPageChange () {

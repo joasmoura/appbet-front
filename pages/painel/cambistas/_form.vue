@@ -1,5 +1,13 @@
 <template>
   <v-form @submit.prevent="salvar">
+
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
     <v-card>
       <v-card-title>
         Cadastrar cambista
@@ -83,6 +91,7 @@ import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
+    overlay: false,
     gerentes: [],
     supervisores: [],
     comissoes: [],
@@ -117,6 +126,7 @@ export default {
   },
   methods: {
     async getCambista () {
+      this.overlay = true
       await this.$axios.get(`/painel/usuarios/${this.id}/edit`).then((r) => {
         if (r.data.status) {
           const usuario = r.data.usuario
@@ -164,6 +174,8 @@ export default {
             })
           }
         }
+
+        this.overlay = false
       })
     },
     async getRegioes () {
