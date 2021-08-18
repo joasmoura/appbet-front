@@ -11,7 +11,6 @@
 
     <v-card-text>
       <v-row>
-
         <v-col cols="12" sm="6" md="3">
           <v-text-field label="Nome"></v-text-field>
         </v-col>
@@ -27,7 +26,6 @@
           <v-col cols="12" sm="6" md="1">
             <v-btn ><v-icon>mdi-magnify</v-icon> Filtrar</v-btn>
           </v-col>
-
       </v-row>
 
       <v-simple-table>

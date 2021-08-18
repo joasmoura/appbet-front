@@ -5,9 +5,18 @@
       <v-toolbar-title>Caixa</v-toolbar-title>
       <v-spacer />
 
-      <div>
+      <div class="d-flex align-center">
         <date-picker v-model="datas.dataInicio" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="DE"></date-picker>
         <date-picker v-model="datas.dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ"></date-picker>
+
+          <v-combobox
+            v-model="gerente"
+            v-if="$auth.user.perfil == 'administrador'"
+            outlined
+            dense
+            :items="gerentes"
+            label=""></v-combobox>
+
         <v-btn small @click="filtrar"><v-icon>mdi-magnify</v-icon></v-btn>
       </div>
     </v-app-bar>
@@ -125,6 +134,8 @@ export default {
         dataInicio: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
         dataFim: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
       },
+      gerentes: [],
+      gerente: [],
       lang: {
         formatLocale: {
           firstDayOfWeek: 1
@@ -135,13 +146,15 @@ export default {
   },
   created () {
     this.getCaixa()
+    this.getGerentes()
   },
   methods: {
     filtrar () {
       this.getCaixa()
     },
     async getCaixa () {
-      await this.$axios.get(`/painel/caixa/gerente/meu-caixa?dataInicio=${this.datas.dataInicio}&dataFim=${this.datas.dataFim}`).then((r) => {
+      const gerente = (this.gerente.value ? this.gerente.value : null)
+      await this.$axios.get(`/painel/caixa/gerente/meu-caixa?dataInicio=${this.datas.dataInicio}&dataFim=${this.datas.dataFim}&gerente=${gerente}`).then((r) => {
         if (r.data) {
           this.saldoAnterior = r.data.saldoAnterior
           this.valorDebitos = r.data.valorDebitos
@@ -156,6 +169,19 @@ export default {
           this.resultado = r.data.resultado
           this.comissaoLucro = r.data.comissaoLucro
           this.saldo = r.data.saldo
+        }
+      })
+    },
+    async getGerentes () {
+      await this.$axios.get('/painel/usuarios/gerentes_select').then((r) => {
+        const gerentes = r.data
+        if (gerentes) {
+          this.gerentes = gerentes.map((g) => {
+            return {
+              value: g.id,
+              text: g.name
+            }
+          })
         }
       })
     },
