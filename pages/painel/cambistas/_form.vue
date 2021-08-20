@@ -25,11 +25,11 @@
             <v-text-field v-model="nome" solo prepend-icon="mdi-tag" label="Nome" />
           </v-col>
 
-          <v-col cols="12" sm="6" md="4">
+          <v-col v-if="$auth.user.perfil == 'administrador'" cols="12" sm="6" md="4">
             <v-combobox v-model="gerente" solo :items="gerentes" label="Gerente" />
           </v-col>
 
-          <v-col cols="12" sm="6" md="4">
+          <v-col v-if="$auth.user.perfil != 'supervisor'" cols="12" sm="6" md="4">
             <v-combobox v-model="supervisor" solo :items="supervisores" label="Supervisor" />
           </v-col>
 
@@ -243,8 +243,8 @@ export default {
         password: this.password,
         comissao_id: (this.comissao ? this.comissao.value : null),
         percentual_premio: this.percentual_premio,
-        gerente_id: (this.gerente ? this.gerente.value : null),
-        supervisor_id: (this.supervisor ? this.supervisor.value : null),
+        gerente_id: this.retornaGerente(),
+        supervisor_id: this.retornaSupervisor(),
         regiaoSelecionada: this.regiaoSelecionada
       }).then(
         (r) => {
@@ -268,8 +268,8 @@ export default {
         password: this.password,
         comissao_id: (this.comissao ? this.comissao.value : null),
         percentual_premio: this.percentual_premio,
-        gerente_id: (this.gerente ? this.gerente.value : null),
-        supervisor_id: (this.supervisor ? this.supervisor.value : null),
+        gerente_id: this.retornaGerente(),
+        supervisor_id: this.retornaSupervisor(),
         regiaoSelecionada: this.regiaoSelecionada
       }).then(
         (r) => {
@@ -286,6 +286,30 @@ export default {
           }
         }
       )
+    },
+
+    retornaGerente () {
+      let idGerente = ''
+      if (this.$auth.user.perfil === 'gerente') {
+        idGerente = this.$auth.user.id
+      } else if (this.$auth.user.perfil === 'supervisor') {
+        idGerente = this.$auth.user.gerente_id
+      } else {
+        idGerente = (this.gerente ? this.gerente.value : null)
+      }
+
+      return idGerente
+    },
+
+    retornaSupervisor () {
+      let idSupervisor = ''
+      if (this.$auth.user.perfill === 'supervisor') {
+        idSupervisor = this.$auth.user.id
+      } else {
+        idSupervisor = (this.supervisor ? this.supervisor.value : null)
+      }
+
+      return idSupervisor
     }
   }
 }

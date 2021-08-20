@@ -1,12 +1,5 @@
 <template>
 <div>
-  <v-overlay :value="overlay">
-    <v-progress-circular
-      indeterminate
-      size="64"
-    ></v-progress-circular>
-  </v-overlay>
-
   <v-form @submit.prevent="salvar">
     <v-card>
       <v-card-title>
@@ -71,7 +64,6 @@ import Swall from 'sweetalert2'
 export default {
   layout: 'painel',
   data: () => ({
-    overlay: false,
     hora: [],
     id: '',
     premio_1: '',
@@ -91,7 +83,7 @@ export default {
   },
   methods: {
     async getHora () {
-      this.overlay = true
+      this.$nuxt.$emit('setoverlay')
       await this.$axios.get(`/painel/extracoes/hora/${this.id}`).then((r) => {
         if (r.data) {
           const hora = r.data.hora
@@ -107,12 +99,12 @@ export default {
             this.premio_6 = (premios.premio_6 ? premios.premio_6 : '')
             this.premio_7 = (premios.premio_7 ? premios.premio_7 : '')
           }
-          this.overlay = false
+          this.$nuxt.$emit('setoverlay')
         }
       })
     },
     salvar () {
-      this.overlay = true
+      // this.$nuxt.$emit('setoverlay')
       this.$axios.post(`/painel/extracoes/salvar_premios/${this.id}`, {
         premio_1: this.premio_1,
         premio_2: this.premio_2,
@@ -130,7 +122,7 @@ export default {
             title: 'Premios salvos com sucesso'
           })
         }
-        this.overlay = false
+        this.$nuxt.$emit('setoverlay')
       })
     }
   }

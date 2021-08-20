@@ -1,12 +1,5 @@
 <template>
 <div>
-  <v-overlay :value="overlay">
-    <v-progress-circular
-      indeterminate
-      size="64"
-    ></v-progress-circular>
-  </v-overlay>
-
   <v-card>
     <v-card-title>
       Extrações
@@ -83,7 +76,6 @@ export default {
   layout: 'painel',
   data: () => ({
     extracoes: [],
-    overlay: false,
     pagination: {
       current: 1,
       total: 0
@@ -105,7 +97,7 @@ export default {
       this.$router.push(`/painel/extracao/resultado/${id}`)
     },
     getExtracoes () {
-      this.overlay = true
+      this.$nuxt.$emit('setoverlay')
       this.$axios.get(`/painel/extracoes?page=${this.pagination.current}`).then((r) => {
         const extracoes = r.data
         if (extracoes) {
@@ -113,7 +105,7 @@ export default {
           this.pagination.current = extracoes.current_page
           this.pagination.total = extracoes.last_page
         }
-        this.overlay = false
+        this.$nuxt.$emit('setoverlay')
       })
     },
     onPageChange () {

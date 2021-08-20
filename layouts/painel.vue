@@ -1,5 +1,13 @@
 <template>
   <v-app >
+
+    <v-overlay :value="overlay">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
     <v-navigation-drawer
       v-model="drawer"
       :mini-variant="miniVariant"
@@ -118,6 +126,7 @@
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
+
   </v-app>
 </template>
 
@@ -126,6 +135,7 @@ export default {
   middleware: 'auth',
   data () {
     return {
+      overlay: false,
       clipped: false,
       drawer: false,
       fixed: false,
@@ -151,7 +161,7 @@ export default {
           'Supervisor', 'mdi-account-settings', '/painel/supervisores', this.verificaPerfil(['gerente'])
         ],
         [
-          'Cambistas', 'mdi-account-group', '/painel/cambistas/', this.verificaPerfil(['gerente'])
+          'Cambistas', 'mdi-account-group', '/painel/cambistas/', this.verificaPerfil(['gerente', 'supervisor'])
         ],
         [
           'Regiões', 'mdi-map-marker', '/painel/regiao', this.verificaPerfil([])
@@ -174,7 +184,13 @@ export default {
     }
   },
   created () {
+    if (!this.verificaPerfil(['gerente', 'supervisor'], true)) {
+      this.$auth.logout()
+    }
 
+    this.$nuxt.$on('setoverlay', () => {
+      this.overlay = !this.overlay
+    })
   },
   methods: {
     verificaPerfil (perfil, admin = true) {

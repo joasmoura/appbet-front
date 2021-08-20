@@ -32,6 +32,8 @@
 </v-form>
 </template>
 <script>
+import Swall from 'sweetalert2'
+
 export default {
   layout: 'auth',
   data () {
@@ -48,13 +50,24 @@ export default {
       this.loading = true
       await this.$auth.loginWith('local', {
         data: this.login
-      }).then(() => {
+      }).then((r) => {
+        // Swall.fire({
+        //   title: r.data.msg,
+        //   icon: 'warning'
+        // })
+
         this.loading = false
-        console.log('Sucesso')
       }
       ).catch((erro) => {
         console.log('Erro')
         console.log(erro)
+
+        Swall.fire({
+          title: 'Não foi possível efetuar o login! Verifique seus dados.',
+          icon: 'warning',
+          timer: 2000
+        })
+
         this.loading = false
       })
     }

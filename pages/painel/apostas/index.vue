@@ -81,7 +81,7 @@
                     <td>{{aposta.extracao.data}} {{aposta.horario.nome}}</td>
                     <td>{{moeda(aposta.total)}}</td>
                     <td>
-                      <v-btn v-if="aposta.status != 'cancelado'" @click="cancelar(aposta.id)" small color="primary red darken-2">
+                      <v-btn v-if="aposta.status != 'cancelado' && $auth.user.perfil == 'administrador'" @click="cancelar(aposta.id)" small color="primary red darken-2">
                         <v-icon>mdi-cancel</v-icon> Cancelar
                       </v-btn>
 
