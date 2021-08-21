@@ -173,7 +173,7 @@ export default {
       caixa: [
         ['Meu Caixa', 'mdi-cash-register', '/painel/caixa/meu-caixa', this.verificaPerfil(['gerente', 'supervisor'], false)],
         ['Gerente', 'mdi-cash-register', '/painel/caixa/gerentes', this.verificaPerfil([''])],
-        ['Supervisor', 'mdi-cash-register', '/painel/caixa/supervisor', this.verificaPerfil(['gerente', 'supervisor'])],
+        ['Supervisor', 'mdi-cash-register', '/painel/caixa/supervisor', this.verificaPerfil(['gerente'])],
         ['Cambistas', 'mdi-cash-register', '/painel/caixa/cambista', this.verificaPerfil(['gerente', 'supervisor'])],
         ['Movimentações', 'mdi-cash-register', '/painel/caixa/movimentacoes', this.verificaPerfil([])]
       ],
