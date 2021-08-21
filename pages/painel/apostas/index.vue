@@ -14,13 +14,15 @@
         <v-form @submit.prevent="filtrar">
           <v-row>
             <v-col cols="12" sm="6" md="1">
-              <v-text-field v-model="codigo" label="Código"></v-text-field>
+              <v-text-field v-model="codigo" label="Código" outlined dense></v-text-field>
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
               <v-combobox
                 v-model="cambista"
                 :items="cambistas"
+                outlined
+                dense
                 label="Cambistas"
               ></v-combobox>
             </v-col>
@@ -29,20 +31,68 @@
               <v-combobox
                 v-model="gerente"
                 :items="gerentes"
+                outlined
+                dense
                 label="Gerentes"
               ></v-combobox>
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
-              <v-combobox v-model="resultado" :items="resultados" label="Resultado"></v-combobox>
+              <v-combobox v-model="resultado" :items="resultados" label="Resultado" outlined dense></v-combobox>
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
-              <date-picker v-model="dataInicio" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="DE"></date-picker>
+              <!-- <date-picker v-model="dataInicio" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="DE"></date-picker> -->
+              <v-menu
+                ref="menu1"
+                v-model="menuDataInicio"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="formatDataInicio"
+
+                    label="Data Início"
+                    persistent-hint
+                    v-bind="attrs"
+                      outlined
+                      dense
+                    @blur="dataInicio = parseDate(formatDataInicio)"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="dataInicio" locale="pt-br" no-title @input="menuDataInicio = false"></v-date-picker>
+              </v-menu>
             </v-col>
 
             <v-col cols="12" sm="6" md="2">
-              <date-picker v-model="dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ"></date-picker>
+              <!-- <date-picker v-model="dataFim" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="ATÉ"></date-picker> -->
+              <v-menu
+                ref="menu1"
+                v-model="menuDataFim"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="formatDataFim"
+
+                    label="Data Até"
+                    persistent-hint
+                    v-bind="attrs"
+                      outlined
+                      dense
+                    @blur="dataFim = parseDate(formatDataFim)"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="dataFim" locale="pt-br" no-title @input="menuDataFim = false"></v-date-picker>
+              </v-menu>
             </v-col>
 
             <v-col cols="12" sm="6" md="1">
@@ -138,8 +188,8 @@ export default {
   data: () => ({
     loading: true,
     codigo: '',
-    dataInicio: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
-    dataFim: (new Date().getDate() < 10 ? '0' : '') + new Date().getDate() + '/' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '/' + new Date().getFullYear(),
+    dataInicio: null,
+    dataFim: null,
     cambistas: [
       {
         text: 'Todos', value: ''
@@ -184,13 +234,43 @@ export default {
     pagination: {
       current: 1,
       total: 0
-    }
+    },
+    menuDataInicio: false,
+    menuDataFim: false,
+    formatDataInicio: null,
+    formatDataFim: null
   }),
   created () {
+    this.dataInicio = (new Date().getFullYear() + '-' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '-' + (new Date().getDate() < 10 ? '0' : '') + new Date().getDate())
+    this.dataFim = (new Date().getFullYear() + '-' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '-' + (new Date().getDate() < 10 ? '0' : '') + new Date().getDate())
     this.verificaPerfil(['gerente', 'supervisor'])
     this.getApostas()
   },
+  watch: {
+    dataInicio (val) {
+      this.formatDataInicio = this.formatDate(this.dataInicio)
+    },
+    dataFim (val) {
+      this.formatDataFim = this.formatDate(this.dataFim)
+    }
+  },
   methods: {
+    formatDate (date) {
+      if (!date) {
+        return null
+      }
+
+      const [year, month, day] = date.split('-')
+      return `${day}/${month}/${year}`
+    },
+    parseDate (date) {
+      if (!date) {
+        return null
+      }
+
+      const [day, month, year] = date.split('/')
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    },
     verificaPerfil (perfil) {
       perfil.push('administrador')
       return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')

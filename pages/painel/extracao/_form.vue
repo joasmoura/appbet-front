@@ -23,7 +23,29 @@
         <v-row>
           <v-col cols="12" sm="6" md="4">
             <v-input>
-              <date-picker v-model="data" value-type="DD/MM/YYYY" format="DD/MM/YYYY" :lang="lang" placeholder="dd/MM/YYYY" />
+              <v-menu
+                ref="menu1"
+                v-model="menuData"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="formatData"
+
+                    label="Data"
+                    persistent-hint
+                    v-bind="attrs"
+                      outlined
+                      dense
+                    @blur="data = parseDate(formatData)"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker v-model="data" locale="pt-br" no-title @input="menuData = false"></v-date-picker>
+              </v-menu>
             </v-input>
           </v-col>
 
@@ -113,15 +135,23 @@ export default {
     regiao: '',
     nome: '',
     hora: '',
-    data: new Date(),
+    data: null,
     lang: {
       formatLocale: {
         firstDayOfWeek: 1
       },
       monthBeforeYear: false
-    }
+    },
+    menuData: false,
+    formatData: null
   }),
+  watch: {
+    data (val) {
+      this.formatData = this.formatDate(this.data)
+    }
+  },
   created () {
+    // this.data = (new Date().getFullYear() + '-' + (new Date().getMonth() + 1 < 10 ? '0' : '') + (new Date().getMonth() + 1) + '-' + (new Date().getDate() < 10 ? '0' : '') + new Date().getDate())
     this.verificaPerfil([])
     this.getRegioes()
 
@@ -132,6 +162,22 @@ export default {
     }
   },
   methods: {
+    formatDate (date) {
+      if (!date) {
+        return null
+      }
+
+      const [year, month, day] = date.split('-')
+      return `${day}/${month}/${year}`
+    },
+    parseDate (date) {
+      if (!date) {
+        return null
+      }
+
+      const [day, month, year] = date.split('/')
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    },
     verificaPerfil (perfil) {
       perfil.push('administrador')
       return perfil.includes(this.$auth.user.perfil) ? true : this.$router.push('/painel')
