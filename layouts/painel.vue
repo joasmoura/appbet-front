@@ -76,13 +76,13 @@
           </div>
         </v-list-group>
 
-        <v-list-item v-if="this.verificaPerfil([])" to="/painel">
+        <v-list-item v-if="this.verificaPerfil([])" to="/painel/relatorios">
           <v-list-item-action>
             <v-icon>mdi-chart-bar</v-icon>
           </v-list-item-action>
 
           <v-list-item-content>
-            <v-list-item-title >Relatórios</v-list-item-title>
+            <v-list-item-title>Relatórios</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 

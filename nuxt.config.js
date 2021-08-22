@@ -49,8 +49,9 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: "http://192.168.0.101/appbet/api"
-    baseURL: "https://webserver.rapidopedido.com.br/api/"
+    //baseURL: "http://192.168.0.100/appbet/api" //local
+    baseURL: "https://webserver.rapidopedido.com.br/api/"//teste
+    // baseURL: "https://appbet.rapidopedido.com.br/api/"//producção
   },
 
   auth: {
@@ -64,7 +65,8 @@ export default {
     },
 
     redirect: {
-      home: '/painel'
+      home: '/painel',
+      logout: '/login'
     }
   },
 
