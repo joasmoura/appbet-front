@@ -290,8 +290,8 @@ export default {
           this.pagination.current = apostas.current_page
           this.pagination.total = apostas.last_page
         }
-        this.overlay = false
       })
+      this.overlay = false
     },
     getModalidade (id) {
       const modalidade = this.modalidades.find(mod => parseInt(mod.id) === parseInt(id))
