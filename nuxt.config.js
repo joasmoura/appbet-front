@@ -1,4 +1,5 @@
 import colors from 'vuetify/es5/util/colors'
+require('dotenv').config()
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -39,6 +40,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/dotenv',
+
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
@@ -52,8 +55,9 @@ export default {
     //baseURL: "http://192.168.0.102/appbet/api" //local
     //baseURL: "https://webserver.rapidopedido.com.br/api/"//teste
     // baseURL: "https://appbet.rapidopedido.com.br/api/"//producção
-    baseURL: "https://jardimpremiado.rapidopedido.com.br/api"//producção
+    //baseURL: "https://jardimpremiado.rapidopedido.com.br/api"//producção
     //baseURL: "https://backend.rapidopedido.com.br/api"//producção
+    baseURL: process.env.baseUrl//producção
   },
 
   auth: {
