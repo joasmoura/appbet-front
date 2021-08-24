@@ -1,12 +1,5 @@
 <template>
 <div>
-  <v-overlay :value="overlay">
-    <v-progress-circular
-      indeterminate
-      size="64"
-    ></v-progress-circular>
-  </v-overlay>
-
   <v-card>
     <v-card-title>Apostas</v-card-title>
     <v-card-text>
