@@ -284,6 +284,7 @@ export default {
     async getApostas () {
       this.overlay = true
       await this.$axios.get(`/painel/apostas?page=${this.pagination.current}&codigo=${this.codigo}&cambista=${this.cambista}&gerente=${this.gerente}&resultado=${this.resultado}&dataInicio=${this.dataInicio}&dataFim=${this.dataFim}`).then((r) => {
+        this.overlay = false
         const apostas = r.data
         if (apostas) {
           this.apostas = apostas.data
@@ -291,7 +292,6 @@ export default {
           this.pagination.total = apostas.last_page
         }
       })
-      this.overlay = false
     },
     getModalidade (id) {
       const modalidade = this.modalidades.find(mod => parseInt(mod.id) === parseInt(id))
