@@ -72,6 +72,7 @@ export default {
 
     redirect: {
       home: '/painel',
+      logout: '/login'
     }
   },
 
