@@ -184,9 +184,9 @@ export default {
     }
   },
   created () {
-    if (!this.verificaPerfil(['gerente', 'supervisor'], true)) {
-      this.$auth.logout()
-    }
+    // if (!this.verificaPerfil(['gerente', 'supervisor'], true)) {
+    //   this.$auth.logout()
+    // }
 
     this.$nuxt.$on('setoverlay', () => {
       this.overlay = !this.overlay
