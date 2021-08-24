@@ -52,8 +52,8 @@ export default {
     //baseURL: "http://192.168.0.102/appbet/api" //local
     //baseURL: "https://webserver.rapidopedido.com.br/api/"//teste
     // baseURL: "https://appbet.rapidopedido.com.br/api/"//producção
-    // baseURL: "https://jardimpremiado.rapidopedido.com.br/api"//producção
-    baseURL: "https://backend.rapidopedido.com.br/api"//producção
+    baseURL: "https://jardimpremiado.rapidopedido.com.br/api"//producção
+    //baseURL: "https://backend.rapidopedido.com.br/api"//producção
   },
 
   auth: {
