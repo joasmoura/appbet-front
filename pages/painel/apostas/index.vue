@@ -282,15 +282,15 @@ export default {
       this.getApostas()
     },
     async getApostas () {
-      // this.overlay = true
+      this.$nuxt.$emit('setoverlay')
       await this.$axios.get(`/painel/apostas?page=${this.pagination.current}&codigo=${this.codigo}&cambista=${this.cambista}&gerente=${this.gerente}&resultado=${this.resultado}&dataInicio=${this.dataInicio}&dataFim=${this.dataFim}`).then((r) => {
-        // this.overlay = false
         const apostas = r.data
         if (apostas) {
           this.apostas = apostas.data
           this.pagination.current = apostas.current_page
           this.pagination.total = apostas.last_page
         }
+        this.$nuxt.$emit('setoverlay')
       })
     },
     getModalidade (id) {

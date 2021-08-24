@@ -188,9 +188,9 @@ export default {
       this.$auth.logout()
     }
 
-    // this.$nuxt.$on('setoverlay', () => {
-    //   this.overlay = !this.overlay
-    // })
+    this.$nuxt.$on('setoverlay', () => {
+      this.overlay = !this.overlay
+    })
   },
   methods: {
     verificaPerfil (perfil, admin = true) {
