@@ -104,7 +104,7 @@ export default {
       })
     },
     salvar () {
-      // this.$nuxt.$emit('setoverlay')
+      this.$nuxt.$emit('setoverlay')
       this.$axios.post(`/painel/extracoes/salvar_premios/${this.id}`, {
         premio_1: this.premio_1,
         premio_2: this.premio_2,
@@ -116,7 +116,7 @@ export default {
       }).then((r) => {
         console.log(r.data)
         if (r.data.status) {
-          // this.$router.push('/painel/extracao')
+          this.$router.push('/painel/extracao')
           Swall.fire({
             icon: 'success',
             title: 'Premios salvos com sucesso'
