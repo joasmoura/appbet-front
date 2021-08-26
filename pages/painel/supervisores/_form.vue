@@ -25,7 +25,7 @@
             <v-text-field prepend-icon="mdi-tag" solo v-model="nome" label="Nome"></v-text-field>
           </v-col>
 
-          <v-col cols="12" sm="6" md="6">
+          <v-col v-if="$auth.user.perfil == 'administrador'" cols="12" sm="6" md="6">
             <v-combobox v-model="gerente" solo :items="gerentes" label="Gerente"></v-combobox>
           </v-col>
 
@@ -103,16 +103,24 @@ export default {
 
           this.nome = usuario.name
 
-          const regiao = this.regioes.find(re => parseInt(re.value) === parseInt(usuario.regiao_id))
-          this.regiao = {
-            value: regiao.value,
-            text: regiao.text
+          if (this.regioes.length > 0) {
+            const regiao = this.regioes.find(re => parseInt(re.value) === parseInt(usuario.regiao_id))
+            if (regiao) {
+              this.regiao = {
+                value: regiao.value,
+                text: regiao.text
+              }
+            }
           }
 
-          const gerente = this.gerentes.find(re => parseInt(re.value) === parseInt(usuario.gerente_id))
-          this.gerente = {
-            value: gerente.value,
-            text: gerente.text
+          if (this.gerentes.length) {
+            const gerente = this.gerentes.find(re => parseInt(re.value) === parseInt(usuario.gerente_id))
+            if (gerente) {
+              this.gerente = {
+                value: gerente.value,
+                text: gerente.text
+              }
+            }
           }
 
           this.limite_credito = usuario.limite_credito
@@ -161,29 +169,27 @@ export default {
         nome: this.nome,
         perfil: this.perfil,
         regiao: this.regiao.value,
-        gerente_id: this.gerente.value,
+        gerente_id: (this.$auth.user.perfil === 'gerente' ? this.$auth.user.id : this.gerente.value),
         limite_credito: this.limite_credito,
         username: this.username,
         password: this.password,
         email: this.email
-      }).then(
-        (r) => {
-          if (r.data.status) {
-            this.$router.push('/painel/supervisores')
-            Swall.fire({
-              icon: 'success',
-              title: 'Sepervisor cadastrado com sucesso'
-            })
-          }
-          this.overlay = false
+      }).then((r) => {
+        if (r.data.status) {
+          this.$router.push('/painel/supervisores')
+          Swall.fire({
+            icon: 'success',
+            title: 'Sepervisor cadastrado com sucesso'
+          })
         }
-      )
+        this.overlay = false
+      })
     },
     atualizar () {
       this.overlay = true
       this.$axios.put(`/painel/usuarios/${this.id}`, {
         nome: this.nome,
-        gerente_id: this.gerente.value,
+        gerente_id: (this.$auth.user.perfil === 'gerente' ? this.$auth.user.id : this.gerente.value),
         perfil: this.perfil,
         regiao: this.regiao.value,
         limite_credito: this.limite_credito,

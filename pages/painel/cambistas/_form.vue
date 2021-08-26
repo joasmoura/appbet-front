@@ -200,7 +200,7 @@ export default {
       })
     },
     async getSupervisores () {
-      await this.$axios.get('/painel/usuarios/supervisores_select').then((r) => {
+      await this.$axios.get(`/painel/usuarios/supervisores_select?gerente=${(this.$auth.user.perfil === 'gerente' ? this.$auth.user.id : null)}`).then((r) => {
         const supervisores = r.data
         if (supervisores) {
           this.supervisores = supervisores.map((reg) => {
@@ -244,7 +244,7 @@ export default {
         comissao_id: (this.comissao ? this.comissao.value : null),
         percentual_premio: this.percentual_premio,
         gerente_id: this.retornaGerente(),
-        supervisor_id: this.retornaSupervisor(),
+        supervisor_id: (this.$auth.user.perfil === 'supervisor' ? this.$auth.user.id : this.supervisor.value),
         regiaoSelecionada: this.regiaoSelecionada
       }).then(
         (r) => {
@@ -252,7 +252,8 @@ export default {
             this.$router.push('/painel/cambistas')
             Swall.fire({
               icon: 'success',
-              title: 'Cambista cadastrado com sucesso'
+              title: 'Cambista cadastrado com sucesso',
+              timer: 2000
             })
           }
         }
@@ -269,14 +270,15 @@ export default {
         comissao_id: (this.comissao ? this.comissao.value : null),
         percentual_premio: this.percentual_premio,
         gerente_id: this.retornaGerente(),
-        supervisor_id: this.retornaSupervisor(),
+        supervisor_id: (this.$auth.user.perfil === 'supervisor' ? this.$auth.user.id : this.supervisor.value),
         regiaoSelecionada: this.regiaoSelecionada
       }).then(
         (r) => {
           if (r.data.status) {
             Swall.fire({
               icon: 'success',
-              title: 'Dados do cambista cadastrado com sucesso'
+              title: 'Dados do cambista cadastrado com sucesso',
+              timer: 2000
             })
           } else {
             Swall.fire({
@@ -290,26 +292,16 @@ export default {
 
     retornaGerente () {
       let idGerente = ''
+
       if (this.$auth.user.perfil === 'gerente') {
         idGerente = this.$auth.user.id
       } else if (this.$auth.user.perfil === 'supervisor') {
         idGerente = this.$auth.user.gerente_id
       } else {
-        idGerente = (this.gerente ? this.gerente.value : null)
+        idGerente = this.gerente.value
       }
 
       return idGerente
-    },
-
-    retornaSupervisor () {
-      let idSupervisor = ''
-      if (this.$auth.user.perfill === 'supervisor') {
-        idSupervisor = this.$auth.user.id
-      } else {
-        idSupervisor = (this.supervisor ? this.supervisor.value : null)
-      }
-
-      return idSupervisor
     }
   }
 }
