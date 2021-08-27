@@ -10,7 +10,7 @@
 
     <v-card>
       <v-card-title>
-        Cadastrar cambista
+        {{(id ? 'Editar Cambista' : 'Cadastrar Cambista')}}
 
         <v-spacer />
 
