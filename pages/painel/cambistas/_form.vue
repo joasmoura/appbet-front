@@ -200,7 +200,7 @@ export default {
       })
     },
     async getSupervisores () {
-      await this.$axios.get(`/painel/usuarios/supervisores_select?gerente=${(this.$auth.user.perfil === 'gerente' ? this.$auth.user.id : null)}`).then((r) => {
+      await this.$axios.get(`/painel/usuarios/supervisores_select?gerente=${(this.$auth.user.perfil === 'gerente' ? this.$auth.user.id : '')}`).then((r) => {
         const supervisores = r.data
         if (supervisores) {
           this.supervisores = supervisores.map((reg) => {
