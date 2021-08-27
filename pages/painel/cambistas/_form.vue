@@ -132,35 +132,55 @@ export default {
           const usuario = r.data.usuario
 
           this.nome = usuario.name
-          if (usuario.gerente_id) {
-            const gerente = this.gerentes.find(re => parseInt(re.value) === parseInt(usuario.gerente_id))
-            if (gerente) {
-              this.gerente = {
-                value: gerente.value,
-                text: gerente.text
-              }
+          if (usuario.gerente) {
+            this.gerente = {
+              value: usuario.gerente.id,
+              text: usuario.gerente.name
+            }
+          }
+          // if (usuario.gerente_id) {
+          //   const gerente = this.gerentes.find(re => parseInt(re.value) === parseInt(usuario.gerente_id))
+          //   if (gerente) {
+          //     this.gerente = {
+          //       value: gerente.value,
+          //       text: gerente.text
+          //     }
+          //   }
+          // }
+
+          if (usuario.supervisor) {
+            this.supervisor = {
+              value: usuario.supervisor.id,
+              text: usuario.supervisor.name
             }
           }
 
-          if (usuario.supervisor_id) {
-            const supervisor = this.supervisores.find(re => parseInt(re.value) === parseInt(usuario.supervisor_id))
-            if (supervisor) {
-              this.supervisor = {
-                value: supervisor.value,
-                text: supervisor.text
-              }
+          // if (usuario.supervisor_id) {
+          //   const supervisor = this.supervisores.find(re => parseInt(re.value) === parseInt(usuario.supervisor_id))
+          //   if (supervisor) {
+          //     this.supervisor = {
+          //       value: supervisor.value,
+          //       text: supervisor.text
+          //     }
+          //   }
+          // }
+
+          if (usuario.comissao) {
+            this.comissao = {
+              value: usuario.comissao.id,
+              text: usuario.comissao.nome
             }
           }
 
-          if (usuario.comissao_id) {
-            const comissao = this.comissoes.find(re => parseInt(re.value) === parseInt(usuario.comissao_id))
-            if (comissao) {
-              this.comissao = {
-                value: comissao.value,
-                text: comissao.text
-              }
-            }
-          }
+          // if (usuario.comissao_id) {
+          //   const comissao = this.comissoes.find(re => parseInt(re.value) === parseInt(usuario.comissao_id))
+          //   if (comissao) {
+          //     this.comissao = {
+          //       value: comissao.value,
+          //       text: comissao.text
+          //     }
+          //   }
+          // }
 
           this.limite_credito = usuario.limite_credito
           this.username = usuario.username
