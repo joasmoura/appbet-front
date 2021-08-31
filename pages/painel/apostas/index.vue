@@ -194,9 +194,11 @@ export default {
       }
     ],
     resultados: [
-      {
-        text: 'Todos', value: ''
-      }
+      { text: 'Todos', value: '' },
+      { text: 'Aberto', value: 'aberto' },
+      { text: 'Granhou', value: 'ganhou' },
+      { text: 'Perdeu', value: 'perdeu' },
+      { text: 'Cancelado', value: 'cancelado' }
     ],
     apostas: [],
 
@@ -223,7 +225,7 @@ export default {
 
     cambista: '',
     gerente: '',
-    resultado: '',
+    resultado: { text: 'Aberto', value: 'aberto' },
     pagination: {
       current: 1,
       total: 0
@@ -276,7 +278,7 @@ export default {
     },
     async getApostas () {
       this.$nuxt.$emit('setoverlay')
-      await this.$axios.get(`/painel/apostas?page=${this.pagination.current}&codigo=${this.codigo}&cambista=${this.cambista}&gerente=${this.gerente}&resultado=${this.resultado}&dataInicio=${this.dataInicio}&dataFim=${this.dataFim}`).then((r) => {
+      await this.$axios.get(`/painel/apostas?page=${this.pagination.current}&codigo=${this.codigo}&cambista=${this.cambista}&gerente=${this.gerente}&resultado=${this.resultado.value}&dataInicio=${this.dataInicio}&dataFim=${this.dataFim}`).then((r) => {
         const apostas = r.data
         if (apostas) {
           this.apostas = apostas.data
