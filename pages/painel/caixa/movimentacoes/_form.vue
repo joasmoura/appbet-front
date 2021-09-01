@@ -107,7 +107,7 @@ export default {
     async criar () {
       this.overlay = true
       await this.$axios.post('/painel/movimentacao', {
-        cambista: this.cambista.value,
+        usuario: this.usuario.value,
         descricao: this.descricao,
         tipo: this.tipo.value,
         data: this.data,
@@ -125,7 +125,7 @@ export default {
     async atualizar () {
       this.overlay = true
       await this.$axios.put(`/painel/movimentacao/${this.id}`, {
-        cambista: this.cambista.value,
+        usuario: this.usuario.value,
         descricao: this.descricao,
         tipo: this.tipo.value,
         data: this.data,
@@ -151,9 +151,9 @@ export default {
           }
           this.data = movimentacao.data
           this.valor = movimentacao.valor
-          this.cambista = {
-            value: movimentacao.cambista.id,
-            text: movimentacao.cambista.name
+          this.usuario = {
+            value: movimentacao.usuario.id,
+            text: movimentacao.usuario.name
           }
         }
         this.overlay = false
